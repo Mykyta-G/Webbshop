@@ -1,96 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Webbshop</title>
-    <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
+    <link rel="stylesheet" href="main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
     <header>
-        <div class="container">
-            <div class="logo">
-                <img src="img/logo.png" alt="logo">
-            </div>
-            <div class="search-bar">
-                <input type="text" placeholder="Search...">
-                <button><i class="fas fa-search"></i></button>
-            </div>
-            <div class="user-actions">
-                <button><i class="fas fa-user"></i></button>
-                <button><i class="fas fa-shopping-cart"></i></button>
-            </div>
-            <div class="menu">
-                <ul>
-                    <li><a href="#" class="active" data-page="home">Home</a></li>
-                    <li><a href="#" data-page="products">Products</a></li>
-                    <li><a href="#" data-page="about">About</a></li>
-                    <li><a href="#" data-page="contact">Contact</a></li>
-                </ul>
-                </div>
+      <div class="container">
+        <div class="logo">
+          <img src="media/temp.png" alt="logo" />
         </div>
+        <div class="search-bar">
+          <input type="text" placeholder="Search..." />
+          <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="user-actions">
+          <button><i class="fas fa-user"></i></button>
+          <button><i class="fas fa-shopping-cart"></i></button>
+        </div>
+        <div class="menu">
+          <ul>
+            <li><a href="#" class="active" data-page="home">Home</a></li>
+            <li><a href="#" data-page="products">Products</a></li>
+            <li><a href="#" data-page="about">About</a></li>
+            <li><a href="#" data-page="contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
     </header>
     <main>
-        <div class="container">
-            <div class="ads-section">
-                <div class="ads-item">
-
-                </div>
-                <div class="ads-item">
-
-                </div>
-                <div class="ads-item">
-
-                </div>
+      <div class="container">
+        <div class="ads-section">
+          <div class="ads-item">
+            <img src="media/temp.png" alt="product1" />
+            <div class="product-info">
+              <h3>Product 1</h3>
+              <p>Price: <del>$90</del> $100</p>
             </div>
-            <div class="products-section">
-                <div class="product-item">
-                    <img src="img/product1.jpg" alt="product1">
-                    <h3>Product 1</h3>
-                    <p>Price: $100</p>
-                </div>
-            
-                <div class="product-item">
-                    <img src="img/product1.jpg" alt="product1">
-                    <h3>Product 1</h3>
-                    <p>Price: $100</p>
-                </div>
-                <div class="product-item">
-                    <img src="img/product1.jpg" alt="product1">
-                    <h3>Product 1</h3>
-                    <p>Price: $100</p>
-                </div>
-                <div class="product-item">
-                    <img src="img/product1.jpg" alt="product1">
-                    <h3>Product 1</h3>
-                    <p>Price: $100</p>
-                </div>
-                </div>
+          </div>
         </div>
+        <div class="products-section">
+          <div class="product-item">
+            <img src="media/temp.png" alt="product1" />
+            <div class="product-info">
+              <h3>Product 1</h3>
+              <p>Price: $100</p>
+            </div>
+          </div>
+          <div class="product-item">
+            <img src="media/temp.png" alt="product1" />
+            <div class="product-info">
+              <h3>Product 2</h3>
+              <p>Price: $99</p>
+            </div>
+          </div>
+          <div class="product-item">
+            <img src="media/temp.png" alt="product1" />
+            <div class="product-info">
+              <h3>Product 3</h3>
+              <p>Price: $150</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
-    
+
     <script>
-        // Active link functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.menu a');
-            
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Remove active class from all links
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    
-                    // Add active class to clicked link
-                    this.classList.add('active');
-                    
-                    // You can add page switching logic here
-                    const page = this.getAttribute('data-page');
-                    console.log('Switching to page:', page);
-                });
-            });
+      // Active link functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const navLinks = document.querySelectorAll(".menu a");
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            // Remove active class from all links
+            navLinks.forEach((l) => l.classList.remove("active"));
+
+            // Add active class to clicked link
+            this.classList.add("active");
+
+            // You can add page switching logic here
+            const page = this.getAttribute("data-page");
+            console.log("Switching to page:", page);
+          });
         });
+      });
     </script>
-</body>
+  </body>
 </html>

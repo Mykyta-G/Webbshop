@@ -1,3 +1,10 @@
+:root {
+    --background-gradient: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+    --background-color: #0a0a0a;
+
+    --card-gradient: linear-gradient(135deg, #19abad 0%, #12594e 100%);
+  }
+
 * {
     margin: 0;
     padding: 0;
@@ -8,7 +15,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #e8e8e8;
-    background-color: #0a0a0a;
+    background-color: var(--background-color);
 }
 
 .container {
@@ -18,7 +25,7 @@ body {
 }
 
 header {
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+    background: var(--background-gradient);
     padding: 1rem 0;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     position: sticky;
@@ -198,7 +205,7 @@ main {
 }
 
 .ads-item {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    background: var(--card-gradient);
     border: 2px solid #4a5568;
     border-radius: 15px;
     padding: 2rem;
@@ -206,6 +213,14 @@ main {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+}
+
+.ads-item img {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
 }
 
 .ads-item::before {
@@ -237,7 +252,7 @@ main {
 }
 
 .product-item {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    background: var(--card-gradient);
     border: 2px solid #4a5568;
     border-radius: 15px;
     padding: 1.5rem;
@@ -270,8 +285,7 @@ main {
 }
 
 .product-item img {
-    width: 100%;
-    height: 200px;
+     height: 200px;
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 1rem;
@@ -283,16 +297,21 @@ main {
 }
 
 .product-item h3 {
-    color: #3182ce;
+    color: #ffffff;
     margin-bottom: 0.5rem;
     font-size: 1.2rem;
     font-weight: 600;
 }
 
 .product-item p {
-    color: #2b6cb0;
+    color: #ffffff;
     font-size: 1.1rem;
     font-weight: 700;
+}
+.product-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 @media (max-width: 768px) {
