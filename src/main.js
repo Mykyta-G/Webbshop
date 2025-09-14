@@ -20,4 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 		});
 	}
+
+	// Expand/collapse all products
+	const allProductsBtn = document.getElementById('toggleAllProducts');
+	const allProductsSection = document.getElementById('allProducts');
+	if (allProductsBtn && allProductsSection) {
+		allProductsBtn.addEventListener('click', () => {
+			const expanded = allProductsBtn.getAttribute('aria-expanded') === 'true';
+			allProductsBtn.setAttribute('aria-expanded', String(!expanded));
+			allProductsSection.classList.toggle('hidden', expanded);
+			allProductsBtn.textContent = expanded ? 'Browse →' : 'Stäng ↑';
+		});
+	}
 });

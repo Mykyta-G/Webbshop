@@ -51,7 +51,7 @@
   <section id="hero" class="pt-28 pb-16">
     <div class="max-w-4xl mx-auto px-4 text-center">
       <h1 class="text-5xl md:text-6xl font-bold tracking-tight">FIDGET SHOP</h1>
-      <p class="mt-6 max-w-xl mx-auto text-neutral-500">Mykyta, Finn, Jesper, Damian</p>
+      <p class="mt-6 max-w-xl mx-auto text-neutral-500">By Mykyta, Finn, Jesper, Damian</p>
     </div>
   </section>
 
@@ -60,19 +60,43 @@
   <section id="products" class="py-12">
     <div class="max-w-6xl mx-auto px-4">
       <h2 class="text-3xl font-semibold mb-6 flex items-center gap-3">
-        <span class="inline-block px-2 py-1 text-xs font-medium tracking-wide rounded border border-dashed border-neutral-400">HOT</span>
-        <span class="text-neutral-500 text-sm font-normal">(Section label)</span>
+        <span class="inline-block px-2 py-1 text-xs font-medium tracking-wide">HOT</span>
+        <span class="text-neutral-500 text-sm font-normal">(ONLY 10 LEFT)</span>
       </h2>
       <div class="grid gap-6 sm:grid-cols-3">
-        <div class="h-40 rounded border-2 border-dashed border-neutral-400 bg-neutral-50 flex items-center justify-center text-neutral-400 text-sm">Item</div>
-        <div class="h-40 rounded border-2 border-dashed border-neutral-400 bg-neutral-50 flex items-center justify-center text-neutral-400 text-sm">Item</div>
-        <div class="h-40 rounded border-2 border-dashed border-neutral-400 bg-neutral-50 flex items-center justify-center text-neutral-400 text-sm">Item</div>
+        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2">
+          <img src="media/temp.png" alt="Produkt bild" class="w-full h-auto block" loading="lazy">
+        </div>
+        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2">
+          <img src="media/temp.png" alt="Produkt bild" class="w-full h-auto block" loading="lazy">
+        </div>
+        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2">
+          <img src="media/temp.png" alt="Produkt bild" class="w-full h-auto block" loading="lazy">
+        </div>
       </div>
       <div class="mt-8 flex justify-end">
-        <a href="#products" class="px-5 py-2 rounded border-2 border-dashed border-neutral-400 text-neutral-500 text-sm">Browse →</a>
+        <button id="toggleAllProducts" type="button" aria-expanded="false" aria-controls="allProducts" class="px-5 py-2 rounded border-2 border-dashed border-neutral-400 text-neutral-500 text-sm">Browse →</button>
+      </div>
+
+      <!-- Hidden expandable full product list (wireframe placeholders) -->
+      <div id="allProducts" class="mt-10 hidden" aria-label="Alla produkter (placeholder)">
+        <h3 class="sr-only">Alla produkter</h3>
+        <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2"><img src="media/temp.png" alt="Produkt" class="w-full h-auto block" loading="lazy"></div>
+          <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2"><img src="media/temp.png" alt="Produkt" class="w-full h-auto block" loading="lazy"></div>
+          <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2"><img src="media/temp.png" alt="Produkt" class="w-full h-auto block" loading="lazy"></div>
+          <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2"><img src="media/temp.png" alt="Produkt" class="w-full h-auto block" loading="lazy"></div>
+          <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2"><img src="media/temp.png" alt="Produkt" class="w-full h-auto block" loading="lazy"></div>
+          <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2"><img src="media/temp.png" alt="Produkt" class="w-full h-auto block" loading="lazy"></div>
+          <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2"><img src="media/temp.png" alt="Produkt" class="w-full h-auto block" loading="lazy"></div>
+          <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2"><img src="media/temp.png" alt="Produkt" class="w-full h-auto block" loading="lazy"></div>
+          <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2"><img src="media/temp.png" alt="Produkt" class="w-full h-auto block" loading="lazy"></div>
+          <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2"><img src="media/temp.png" alt="Produkt" class="w-full h-auto block" loading="lazy"></div>
+          <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2"><img src="media/temp.png" alt="Produkt" class="w-full h-auto block" loading="lazy"></div>
+          <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2"><img src="media/temp.png" alt="Produkt" class="w-full h-auto block" loading="lazy"></div>
+        </div>
       </div>
     </div>
-      </div>
     </section>
 
     <!-- About -->
