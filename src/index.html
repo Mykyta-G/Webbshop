@@ -1,251 +1,118 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modern Webshop - Premium Products</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-gradient-to-br from-blue-600 via-yellow-300 to-blue-600 min-h-screen font-inter">
-    <!-- Navigation Header -->
-    <header class="bg-white/10 backdrop-blur-md border-b border-white/20 fixed top-0 left-0 right-0 z-50">
-      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-          <div class="flex items-center space-x-2">
-            <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-              <span class="text-white font-bold text-sm">W</span>
-            </div>
-            <h1 class="text-white text-xl font-bold">ModernShop</h1>
-          </div>
-          
-          <div class="hidden md:flex items-center space-x-8">
-            <a href="#" class="text-white/80 hover:text-white transition-colors">Home</a>
-            <a href="#" class="text-white/80 hover:text-white transition-colors">Products</a>
-            <a href="#" class="text-white/80 hover:text-white transition-colors">About</a>
-            <a href="#" class="text-white/80 hover:text-white transition-colors">Contact</a>
-          </div>
-          
-          <div class="flex items-center space-x-4">
-            <button class="relative p-2 text-white/80 hover:text-white transition-colors">
-              <img class="w-6 h-6" src="media/cart-icon.svg" alt="Cart">
-              <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
-            </button>
-            <button class="md:hidden text-white">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Webbshop</title>
+  <meta name="description" content="Simple blue & yellow themed webshop" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="main.css" />
+  <script defer src="main.js"></script>
+</head>
+<body class="font-inter bg-neutral-100 text-neutral-800 selection:bg-neutral-300">
+  <!-- Header -->
+  <header class="fixed top-0 inset-x-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-2 font-semibold tracking-wide text-neutral-900">
+        <span class="text-lg">LOGO</span>
+      </a>
+      <nav class="hidden md:block" aria-label="Main">
+        <ul class="flex items-center gap-10 text-sm font-medium text-neutral-500">
+          <li><a class="nav-link hover:text-neutral-900 transition" href="#products">Produkter</a></li>
+          <li><a class="nav-link hover:text-neutral-900 transition" href="#about">Om oss</a></li>
+          <li><a class="nav-link hover:text-neutral-900 transition" href="#contact">Kontakt</a></li>
+        </ul>
       </nav>
-    </header>
+      <div class="flex items-center gap-4">
+        <button class="p-2 rounded border border-dashed border-neutral-400 text-[10px] tracking-wide text-neutral-500" aria-label="Cart placeholder">CART</button>
+        <button class="md:hidden flex flex-col justify-center gap-[5px] w-9 h-9 rounded-lg hover:bg-white/10 group nav-toggle" aria-label="Menu" aria-expanded="false">
+          <span class="h-0.5 w-5 bg-white transition"></span>
+          <span class="h-0.5 w-5 bg-white transition"></span>
+          <span class="h-0.5 w-5 bg-white transition"></span>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+  <div class="mobile-menu md:hidden hidden border-t border-neutral-300 bg-white/90 backdrop-blur" id="mobileMenu">
+      <nav class="px-4 py-4" aria-label="Mobile">
+        <ul class="flex flex-col gap-4 text-sm font-medium">
+          <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="#products">Produkter</a></li>
+          <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="#about">Om oss</a></li>
+          <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="#contact">Kontakt</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Hero Section -->
-    <section class="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
-      <div class="max-w-7xl mx-auto text-center">
-        <h2 class="text-4xl md:text-6xl font-bold text-white mb-6">
-          Discover Premium
-          <span class="bg-gradient-to-r from-yellow-400 to-blue-500 bg-clip-text text-transparent">Products</span>
-        </h2>
-        <p class="text-xl text-white/70 mb-12 max-w-2xl mx-auto">
-          Experience the finest selection of modern products designed for the contemporary lifestyle
-        </p>
+  <!-- Hero -->
+  <section id="hero" class="pt-28 pb-16">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-5xl md:text-6xl font-bold tracking-tight">TEXT</h1>
+      <p class="mt-6 max-w-xl mx-auto text-neutral-500">(Hero description placeholder. Replace later.)</p>
+      <div class="mt-10 flex flex-wrap gap-4 justify-center">
+        <a href="#products" class="inline-flex items-center gap-2 px-6 py-3 rounded border-2 border-dashed border-neutral-400 text-neutral-600 text-sm font-medium">Browse →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <main id="main-content" role="main" class="pb-24">
+  <section id="products" class="py-12">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-semibold mb-6 flex items-center gap-3">
+        <span class="inline-block px-2 py-1 text-xs font-medium tracking-wide rounded border border-dashed border-neutral-400">HOT</span>
+        <span class="text-neutral-500 text-sm font-normal">(Section label)</span>
+      </h2>
+      <div class="grid gap-6 sm:grid-cols-3">
+        <div class="h-40 rounded border-2 border-dashed border-neutral-400 bg-neutral-50 flex items-center justify-center text-neutral-400 text-sm">Item</div>
+        <div class="h-40 rounded border-2 border-dashed border-neutral-400 bg-neutral-50 flex items-center justify-center text-neutral-400 text-sm">Item</div>
+        <div class="h-40 rounded border-2 border-dashed border-neutral-400 bg-neutral-50 flex items-center justify-center text-neutral-400 text-sm">Item</div>
+      </div>
+      <div class="mt-8 flex justify-end">
+        <a href="#products" class="px-5 py-2 rounded border-2 border-dashed border-neutral-400 text-neutral-500 text-sm">Browse →</a>
+      </div>
+    </div>
       </div>
     </section>
 
-    <!-- News Section -->
-    <section class="px-4 sm:px-6 lg:px-8 pb-16">
-      <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-12">
-          <h3 class="text-3xl font-bold text-white mb-4">Latest News & Updates</h3>
-          <p class="text-white/60">Stay informed with our latest announcements and industry insights</p>
+    <!-- About -->
+  <section id="about" class="py-20 border-y border-neutral-300 bg-white/70">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-semibold mb-8">Om oss</h2>
+      <div class="space-y-4 max-w-2xl">
+        <div class="h-4 bg-neutral-200 rounded"></div>
+        <div class="h-4 bg-neutral-200 rounded w-11/12"></div>
+        <div class="h-4 bg-neutral-200 rounded w-5/6"></div>
+        <div class="h-4 bg-neutral-200 rounded w-2/3"></div>
+      </div>
+    </div>
+  </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-20">
+      <div class="max-w-6xl mx-auto px-4">
+        <h2 class="text-3xl font-semibold mb-8">Kontakt</h2>
+        <div class="space-y-4 max-w-md">
+          <div class="h-4 bg-neutral-200 rounded"></div>
+          <div class="h-4 bg-neutral-200 rounded w-10/12"></div>
+          <div class="h-4 bg-neutral-200 rounded w-7/12"></div>
         </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          <!-- News Card 1 -->
-          <div class="news-card group">
-            <div class="relative overflow-hidden rounded-2xl mb-4">
-              <div class="bg-gradient-to-br from-blue-500 to-purple-600 h-48 flex items-center justify-center">
-                <div class="text-center text-white">
-                  <div class="text-2xl font-bold mb-2">SPIN</div>
-                  <div class="text-sm font-semibold">TECH UPDATE</div>
-                </div>
-              </div>
-              <div class="absolute top-4 left-4">
-                <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">New</span>
-              </div>
-            </div>
-            <div class="p-4">
-              <h4 class="text-white font-semibold text-lg mb-2">Ceramic Bearing Technology</h4>
-              <p class="text-white/60 text-sm mb-4">Our latest fidget spinners now feature advanced ceramic bearings that provide 60% longer spin times and virtually silent operation for enhanced focus and stress relief.</p>
-              <div class="flex items-center justify-between">
-                <span class="text-white/40 text-xs">2 hours ago</span>
-                <button class="text-purple-400 hover:text-purple-300 text-sm font-medium">Read More →</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- News Card 2 -->
-          <div class="news-card group">
-            <div class="relative overflow-hidden rounded-2xl mb-4">
-              <div class="bg-gradient-to-br from-green-500 to-teal-600 h-48 flex items-center justify-center">
-                <div class="text-center text-white">
-                  <div class="text-2xl font-bold mb-2">ECO</div>
-                  <div class="text-sm font-semibold">SUSTAINABILITY</div>
-                </div>
-              </div>
-              <div class="absolute top-4 left-4">
-                <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full">Green</span>
-              </div>
-            </div>
-            <div class="p-4">
-              <h4 class="text-white font-semibold text-lg mb-2">Recycled Aluminum Collection</h4>
-              <p class="text-white/60 text-sm mb-4">Introducing our new eco-friendly fidget spinners made from 100% recycled aluminum, reducing environmental impact while maintaining premium quality and performance.</p>
-              <div class="flex items-center justify-between">
-                <span class="text-white/40 text-xs">1 day ago</span>
-                <button class="text-purple-400 hover:text-purple-300 text-sm font-medium">Read More →</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- News Card 3 -->
-          <div class="news-card group">
-            <div class="relative overflow-hidden rounded-2xl mb-4">
-              <div class="bg-gradient-to-br from-orange-500 to-red-600 h-48 flex items-center justify-center">
-                <div class="text-center text-white">
-                  <div class="text-2xl font-bold mb-2">PRO</div>
-                  <div class="text-sm font-semibold">AWARD</div>
-                </div>
-              </div>
-              <div class="absolute top-4 left-4">
-                <span class="bg-orange-500 text-white text-xs px-2 py-1 rounded-full">Winner</span>
-              </div>
-            </div>
-            <div class="p-4">
-              <h4 class="text-white font-semibold text-lg mb-2">Fidget Spinner of the Year</h4>
-              <p class="text-white/60 text-sm mb-4">Our Pro Fidget Spinner has been recognized as the "Fidget Spinner of the Year" by the Stress Relief Products Association for its innovative design and therapeutic benefits.</p>
-              <div class="flex items-center justify-between">
-                <span class="text-white/40 text-xs">3 days ago</span>
-                <button class="text-purple-400 hover:text-purple-300 text-sm font-medium">Read More →</button>
-              </div>
-            </div>
-          </div>
+        <div class="mt-10">
+          <a href="mailto:info@example.com" class="inline-flex px-6 py-3 border-2 border-dashed border-neutral-400 rounded text-sm text-neutral-600">CTA</a>
         </div>
       </div>
     </section>
+  </main>
 
-    <!-- Products Section -->
-    <main class="px-4 sm:px-6 lg:px-8 pb-16">
-      <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-12">
-          <h3 class="text-3xl font-bold text-white mb-4">Featured Products</h3>
-          <p class="text-white/60">Carefully curated items for your modern lifestyle</p>
-        </div>
-        
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          <!-- Product Card 1 -->
-          <div class="product-card group">
-            <div class="relative overflow-hidden rounded-2xl mb-4">
-              <img class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110" src="media/temp.png" alt="Premium Fidget Spinner">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div class="absolute top-4 right-4">
-                <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">Sale</span>
-              </div>
-            </div>
-            <div class="p-4">
-              <h3 class="text-white font-semibold text-lg mb-2">Premium Fidget Spinner</h3>
-              <p class="text-white/60 text-sm mb-4">High-quality precision engineered for stress relief and focus enhancement</p>
-              <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <span class="text-2xl font-bold text-white">$200</span>
-                  <span class="text-white/50 line-through">$149</span>
-                </div>
-                <button class="add-to-cart-btn">
-                  <img class="w-5 h-5" src="media/cart-icon.svg" alt="Add to cart">
-                  <span>Add</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Product Card 2 -->
-          <div class="product-card group">
-            <div class="relative overflow-hidden rounded-2xl mb-4">
-              <img class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110" src="media/temp.png" alt="Elite Fidget Spinner">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </div>
-            <div class="p-4">
-              <h3 class="text-white font-semibold text-lg mb-2">Elite Fidget Spinner</h3>
-              <p class="text-white/60 text-sm mb-4">Professional grade spinner with ceramic bearings for ultimate smoothness</p>
-              <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <span class="text-2xl font-bold text-white">$129</span>
-                </div>
-                <button class="add-to-cart-btn">
-                  <img class="w-5 h-5" src="media/cart-icon.svg" alt="Add to cart">
-                  <span>Add</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Product Card 3 -->
-          <div class="product-card group">
-            <div class="relative overflow-hidden rounded-2xl mb-4">
-              <img class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110" src="media/temp.png" alt="Pro Fidget Spinner">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div class="absolute top-4 right-4">
-                <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full">New</span>
-              </div>
-            </div>
-            <div class="p-4">
-              <h3 class="text-white font-semibold text-lg mb-2">Pro Fidget Spinner</h3>
-              <p class="text-white/60 text-sm mb-4">Advanced design with customizable weights and premium materials</p>
-              <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <span class="text-2xl font-bold text-white">$179</span>
-                </div>
-                <button class="add-to-cart-btn">
-                  <img class="w-5 h-5" src="media/cart-icon.svg" alt="Add to cart">
-                  <span>Add</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Product Card 4 -->
-          <div class="product-card group">
-            <div class="relative overflow-hidden rounded-2xl mb-4">
-              <img class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110" src="media/temp.png" alt="Luxury Fidget Spinner">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </div>
-            <div class="p-4">
-              <h3 class="text-white font-semibold text-lg mb-2">Luxury Fidget Spinner</h3>
-              <p class="text-white/60 text-sm mb-4">Handcrafted titanium spinner with diamond-cut edges and premium finish</p>
-              <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <span class="text-2xl font-bold text-white">$299</span>
-                </div>
-                <button class="add-to-cart-btn">
-                  <img class="w-5 h-5" src="media/cart-icon.svg" alt="Add to cart">
-                  <span>Add</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-black/20 backdrop-blur-md border-t border-white/10 mt-16">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="text-center">
-          <p class="text-white/60">&copy; 2024 ModernShop. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-  </body>
+  <!-- Footer -->
+  <footer class="py-10 border-t border-neutral-300 bg-white/70 text-sm">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-neutral-500">
+      <p>&copy; <span id="year"></span> Webbshop (wireframe)</p>
+      <p>Blueprint stage</p>
+    </div>
+  </footer>
+</body>
 </html>
