@@ -51,10 +51,31 @@
   </header>
 
   <!-- Hero -->
-  <section id="hero" class="pt-28 pb-16">
-    <div class="max-w-4xl mx-auto px-4 text-center">
-      <h1 class="text-5xl md:text-6xl font-bold tracking-tight">FIDGET SHOP</h1>
-      <p class="mt-6 max-w-xl mx-auto text-neutral-500">By Mykyta, Finn, Jesper, Damian</p>
+  <section id="hero" class="relative pt-44 pb-32 min-h-[90vh] flex items-center">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-neutral-100"></div>
+    <div class="max-w-7xl mx-auto px-5 w-full">
+      <div class="flex flex-col md:flex-row items-center md:items-stretch gap-16">
+        <div class="flex-1 w-full flex flex-col justify-center">
+          <h1 class="text-left text-7xl sm:text-8xl md:text-[8.5rem] font-extrabold leading-[0.85] tracking-tight">
+            FIDGET <span class="block text-neutral-400">SHOP</span>
+          </h1>
+          <p class="mt-10 max-w-md text-neutral-500 text-left text-base sm:text-lg">By Mykyta, Finn, Jesper, Damian</p>
+        </div>
+        <div class="relative shrink-0 flex items-center justify-center">
+          <div class="w-72 h-72 sm:w-80 sm:h-80 md:w-[22rem] md:h-[22rem] flex items-center justify-center rounded-2xl border-2 border-dashed border-neutral-300 bg-white/70 backdrop-blur-sm shadow-sm">
+            <span class="text-[12px] tracking-wider text-neutral-500">LOGO / IMAGE</span>
+          </div>
+        </div>
+      </div>
+      <div class="absolute left-1/2 -bottom-4 translate-y-full -translate-x-1/2 flex flex-col items-center gap-2" aria-hidden="true">
+        <a href="#products" class="group flex flex-col items-center text-neutral-400 hover:text-neutral-600 transition">
+          <span class="text-[10px] tracking-widest">SCROLL</span>
+          <span class="block w-px h-10 bg-gradient-to-b from-neutral-300 via-neutral-400 to-neutral-500 relative overflow-hidden">
+            <span class="absolute inset-0 animate-pulse bg-gradient-to-b from-transparent via-white/60 to-transparent"></span>
+          </span>
+          <svg class="w-4 h-4 opacity-70 group-hover:opacity-100 transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" /></svg>
+        </a>
+      </div>
     </div>
   </section>
 

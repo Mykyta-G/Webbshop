@@ -1,5 +1,21 @@
 // Mobile navigation toggle & small enhancements
 document.addEventListener('DOMContentLoaded', () => {
+	try {
+		if ('scrollRestoration' in history) {
+			history.scrollRestoration = 'manual';
+		}
+		if (!location.hash) {
+			const root = document.documentElement;
+			const hadInline = !!root.getAttribute('style');
+			const prevInline = root.style.scrollBehavior;
+			root.style.scrollBehavior = 'auto';
+			requestAnimationFrame(() => {
+				window.scrollTo(0,0);
+				if (prevInline) root.style.scrollBehavior = prevInline; else root.style.removeProperty('scroll-behavior');
+				if (!hadInline && !root.getAttribute('style')) root.removeAttribute('style');
+			});
+		}
+	} catch(e) { /* fail silently */ }
 	const toggle = document.querySelector('.nav-toggle');
 	const mobileMenu = document.getElementById('mobileMenu');
 	const yearSpan = document.getElementById('year');
@@ -124,4 +140,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Initial render
 	renderCart();
+
+	// Hero layout toggler (restore if hero variants are re-added later)
+	const heroToggleBtn = document.getElementById('heroLayoutToggle');
+	const heroVariantsWrapper = document.getElementById('heroVariants');
+	if (heroToggleBtn && heroVariantsWrapper){
+		const heroStatus = document.getElementById('heroLayoutStatus');
+		const order = ['split','overlap','centered','edge'];
+		function showVariant(name){
+			heroVariantsWrapper.querySelectorAll('.hero-variant').forEach(v => {
+				if (v.getAttribute('data-variant') === name) v.classList.remove('hidden'); else v.classList.add('hidden');
+			});
+			heroToggleBtn.dataset.layout = name;
+			heroToggleBtn.textContent = 'Layout: ' + name.charAt(0).toUpperCase()+name.slice(1);
+			if(heroStatus) heroStatus.textContent = 'Hero layout changed to ' + name;
+		}
+		heroToggleBtn.addEventListener('click', () => {
+			const current = heroToggleBtn.dataset.layout || 'split';
+			const idx = order.indexOf(current);
+			const next = order[(idx+1)%order.length];
+			showVariant(next);
+		});
+		showVariant(heroToggleBtn.dataset.layout || 'split');
+	}
 });
