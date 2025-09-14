@@ -27,7 +27,10 @@
         </ul>
       </nav>
       <div class="flex items-center gap-4">
-        <button class="p-2 rounded border border-dashed border-neutral-400 text-[10px] tracking-wide text-neutral-500" aria-label="Cart placeholder">CART</button>
+        <button id="cartButton" class="relative p-2 rounded border border-dashed border-neutral-400 text-[10px] tracking-wide text-neutral-500" aria-label="Open cart" aria-haspopup="dialog" aria-expanded="false">
+          CART
+          <span id="cartCount" class="absolute -top-1 -right-1 px-1.5 py-[1px] text-[10px] rounded bg-neutral-900 text-white hidden"></span>
+        </button>
         <button class="md:hidden flex flex-col justify-center gap-[5px] w-9 h-9 rounded-lg hover:bg-white/10 group nav-toggle" aria-label="Menu" aria-expanded="false">
           <span class="h-0.5 w-5 bg-white transition"></span>
           <span class="h-0.5 w-5 bg-white transition"></span>
@@ -64,14 +67,29 @@
         <span class="text-neutral-500 text-sm font-normal">(ONLY 10 LEFT)</span>
       </h2>
       <div class="grid gap-6 sm:grid-cols-3">
-        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2">
-          <img src="media/temp.png" alt="Produkt bild" class="w-full h-auto block" loading="lazy">
+        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2 flex flex-col" data-product-id="1" data-product-name="Silver Spinner" data-product-price="129">
+          <img src="media/temp.png" alt="Silver Spinner" class="w-full h-auto block mb-2" loading="lazy">
+          <div class="flex items-center justify-between text-xs">
+            <span>Silver Spinner</span>
+            <span class="text-neutral-500">129 kr</span>
+          </div>
+          <button class="mt-2 text-xs border border-neutral-400 rounded px-2 py-1 add-to-cart">Add</button>
         </div>
-        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2">
-          <img src="media/temp.png" alt="Produkt bild" class="w-full h-auto block" loading="lazy">
+        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2 flex flex-col" data-product-id="2" data-product-name="Neon Spinner" data-product-price="149">
+          <img src="media/temp.png" alt="Neon Spinner" class="w-full h-auto block mb-2" loading="lazy">
+          <div class="flex items-center justify-between text-xs">
+            <span>Neon Spinner</span>
+            <span class="text-neutral-500">149 kr</span>
+          </div>
+            <button class="mt-2 text-xs border border-neutral-400 rounded px-2 py-1 add-to-cart">Add</button>
         </div>
-        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2">
-          <img src="media/temp.png" alt="Produkt bild" class="w-full h-auto block" loading="lazy">
+        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2 flex flex-col" data-product-id="3" data-product-name="Carbon Spinner" data-product-price="199">
+          <img src="media/temp.png" alt="Carbon Spinner" class="w-full h-auto block mb-2" loading="lazy">
+          <div class="flex items-center justify-between text-xs">
+            <span>Carbon Spinner</span>
+            <span class="text-neutral-500">199 kr</span>
+          </div>
+            <button class="mt-2 text-xs border border-neutral-400 rounded px-2 py-1 add-to-cart">Add</button>
         </div>
       </div>
       <div class="mt-8 flex justify-end">
@@ -130,5 +148,23 @@
       <p>Blueprint stage</p>
     </div>
   </footer>
+  <!-- Cart Overlay & Panel -->
+  <div id="cartOverlay" class="fixed inset-0 bg-black/40 backdrop-blur-[1px] z-50 hidden"></div>
+  <aside id="cartPanel" class="fixed top-0 right-0 h-full w-80 max-w-full translate-x-full transition-transform duration-300 bg-white shadow-xl z-50 flex flex-col border-l border-neutral-300" role="dialog" aria-labelledby="cartTitle" aria-modal="true">
+    <div class="p-4 border-b border-neutral-200 flex items-center justify-between">
+      <h2 id="cartTitle" class="font-semibold text-neutral-800">Your Cart</h2>
+      <button id="closeCart" class="text-neutral-500 hover:text-neutral-800 text-sm" aria-label="Close cart">✕</button>
+    </div>
+    <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3 text-sm">
+      <p class="text-neutral-500 text-xs" id="emptyCartMsg">Cart is empty</p>
+    </div>
+    <div class="border-t border-neutral-200 p-4 space-y-3">
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-neutral-600">Total</span>
+        <span id="cartTotal" class="font-medium">0 kr</span>
+      </div>
+      <button id="checkoutBtn" class="w-full bg-neutral-900 text-white text-sm py-2 rounded disabled:opacity-40 disabled:cursor-not-allowed">Checkout</button>
+    </div>
+  </aside>
 </body>
 </html>
