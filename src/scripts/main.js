@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const cartCountEl = document.getElementById('cartCount');
 	const checkoutBtn = document.getElementById('checkoutBtn');
 
-	const cart = new Map(); // key: productId, value: { id, name, price, qty }
+	 // key: productId, value: { id, name, price, qty }
 
 	function openCart(){
 		cartPanel.classList.remove('translate-x-full');
@@ -74,10 +74,18 @@ document.addEventListener('DOMContentLoaded', () => {
 		cartOverlay.classList.add('hidden');
 		cartBtn?.setAttribute('aria-expanded','false');
 	}
+	function getCart() {
+		try {
+			return JSON.parse(localStorage.getItem("cart")) || [];
+		} catch(e){
+			return [];
+		}
+	}
 
 	function formatCurrency(n){ return n + ' kr'; }
 
 	function renderCart(){
+		let cart = getCart();
 		cartItemsEl.innerHTML = '';
 		let total = 0; let count = 0;
 		if (cart.size === 0){
@@ -85,10 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		} else {
 			emptyMsg.classList.add('hidden');
 			cart.forEach(item => {
-				total += item.price * item.qty; count += item.qty;
+				total += item.price * item.quantity; count += item.quantity;
 				const row = document.createElement('div');
 				row.className = 'flex items-start justify-between gap-3 border border-neutral-200 rounded p-2';
-				row.innerHTML = `<div class="text-xs flex-1"><p class="font-medium text-neutral-800">${item.name}</p><p class="text-neutral-500">${item.price} kr × ${item.qty}</p></div><div class="flex items-center gap-1"><button data-dec="${item.id}" class="text-xs px-2 py-1 border border-neutral-300 rounded hover:bg-neutral-100">-</button><button data-inc="${item.id}" class="text-xs px-2 py-1 border border-neutral-300 rounded hover:bg-neutral-100">+</button><button data-del="${item.id}" class="text-xs px-2 py-1 border border-neutral-300 rounded hover:bg-neutral-100" aria-label="Remove">×</button></div>`;
+				row.innerHTML = `<div class="text-xs flex-1"><p class="font-medium text-neutral-800">${item.name}</p><p class="text-neutral-500">${item.price} kr × ${item.quantity}</p></div><div class="flex items-center gap-1"><button data-dec="${item.id}" class="text-xs px-2 py-1 border border-neutral-300 rounded hover:bg-neutral-100">-</button><button data-inc="${item.id}" class="text-xs px-2 py-1 border border-neutral-300 rounded hover:bg-neutral-100">+</button><button data-del="${item.id}" class="text-xs px-2 py-1 border border-neutral-300 rounded hover:bg-neutral-100" aria-label="Remove">×</button></div>`;
 				cartItemsEl.appendChild(row);
 			});
 		}
@@ -104,12 +112,40 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function addToCart(product){
-		if (cart.has(product.id)) cart.get(product.id).qty += 1; else cart.set(product.id,{...product, qty:1});
+		let cart = getCart();
+  
+    	// Check if product already in cart
+    	const existing = cart.find(item => item.id === product.id);
+    	if (existing) {
+      		existing.quantity += 1; // Increase quantity
+    	} else {
+      		cart.push({ ...product, quantity: 1 });
+    	}
+  
+    	localStorage.setItem("cart", JSON.stringify(cart));
 		renderCart();
 	}
 
-	function adjustQty(id, delta){
-		if(!cart.has(id)) return; const item = cart.get(id); item.qty += delta; if(item.qty<=0) cart.delete(id); renderCart();
+	function adjustQty(id, delta) {
+      const cart = getCart();
+      if (!cart || cart.length === 0) return;
+
+      // find the item index. Use string comparison to be forgiving about id types.
+      const idx = cart.findIndex(item => String(item.id) === String(id));
+      if (idx === -1) return; // item not found
+
+      // compute new quantity safely
+      const currentQty = Number(cart[idx].quantity) || 0;
+      const newQty = currentQty + Number(delta);
+
+      if (newQty <= 0) {
+        // remove the item
+        cart.splice(idx, 1);
+      } else {
+        // update quantity
+        cart[idx].quantity = newQty;
+      }
+		renderCart();
 	}
 
 	cartBtn?.addEventListener('click', openCart);
