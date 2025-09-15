@@ -1,0 +1,15 @@
+{
+  "name": "webbshop",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Merged frontend + backend for Webbshop",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "NODE_ENV=development node server/index.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.2.0",
+    "express": "^5.1.0"
+  }
+}
