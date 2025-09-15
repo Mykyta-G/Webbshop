@@ -14,7 +14,7 @@ app.use(express.static(staticDir));
 
 // Serve the SPA entry point
 app.get('/', (_req, res) => {
-  res.sendFile(path.join(staticDir, 'index.html'));
+  res.sendFile(path.join(staticDir, '/media/index.html'));
 });
 
 // Connect to SQLite database (creates file if it doesn't exist)
