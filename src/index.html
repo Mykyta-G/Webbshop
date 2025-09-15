@@ -84,8 +84,11 @@
   <section id="products" class="py-12">
     <div class="max-w-6xl mx-auto px-4">
       <h2 class="text-3xl font-semibold mb-6 flex items-center gap-3">
-        <span class="inline-block px-2 py-1 text-xs font-medium tracking-wide">HOT</span>
-        <span class="text-neutral-500 text-sm font-normal">(ONLY 10 LEFT)</span>
+        <span class="hot-badge inline-flex items-center gap-1 px-2 py-1 text-xs font-medium tracking-wide">
+          <span>HOT</span>
+          <span class="fire-emoji" role="img" aria-label="hot">🔥</span>
+        </span>
+        <span class="low-stock text-sm font-semibold" aria-live="polite">(ONLY 10 LEFT)</span>
       </h2>
       <div class="grid gap-6 sm:grid-cols-3">
         <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2 flex flex-col" data-product-id="1" data-product-name="Silver Spinner" data-product-price="129">

@@ -43,11 +43,64 @@ document.addEventListener('DOMContentLoaded', () => {
 	const allProductsBtn = document.getElementById('toggleAllProducts');
 	const allProductsSection = document.getElementById('allProducts');
 	if (allProductsBtn && allProductsSection) {
+		function smoothToggle(section, show) {
+			const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (reduceMotion) {
+				// No animation: just toggle visibility
+				if (show) section.classList.remove('hidden'); else section.classList.add('hidden');
+				return;
+			}
+
+			if (show) {
+				// Prepare for expand
+				section.classList.remove('hidden');
+				section.style.overflow = 'hidden';
+				section.style.height = '0px';
+				section.style.opacity = '0';
+				section.style.transition = 'height 300ms ease, opacity 300ms ease';
+				// Force reflow and animate to natural height
+				requestAnimationFrame(() => {
+					section.style.height = section.scrollHeight + 'px';
+					section.style.opacity = '1';
+				});
+				const onEnd = (e) => {
+					if (e.propertyName !== 'height') return;
+					section.style.height = '';
+					section.style.opacity = '';
+					section.style.overflow = '';
+					section.style.transition = '';
+					section.removeEventListener('transitionend', onEnd);
+				};
+				section.addEventListener('transitionend', onEnd);
+			} else {
+				// Collapse
+				section.style.overflow = 'hidden';
+				section.style.height = section.scrollHeight + 'px';
+				section.style.opacity = '1';
+				section.style.transition = 'height 300ms ease, opacity 300ms ease';
+				requestAnimationFrame(() => {
+					section.style.height = '0px';
+					section.style.opacity = '0';
+				});
+				const onEnd = (e) => {
+					if (e.propertyName !== 'height') return;
+					section.classList.add('hidden');
+					section.style.height = '';
+					section.style.opacity = '';
+					section.style.overflow = '';
+					section.style.transition = '';
+					section.removeEventListener('transitionend', onEnd);
+				};
+				section.addEventListener('transitionend', onEnd);
+			}
+		}
+
 		allProductsBtn.addEventListener('click', () => {
 			const expanded = allProductsBtn.getAttribute('aria-expanded') === 'true';
-			allProductsBtn.setAttribute('aria-expanded', String(!expanded));
-			allProductsSection.classList.toggle('hidden', expanded);
-			allProductsBtn.textContent = expanded ? 'Browse →' : 'Stäng ↑';
+			const nextExpanded = !expanded;
+			allProductsBtn.setAttribute('aria-expanded', String(nextExpanded));
+			allProductsBtn.textContent = nextExpanded ? 'Stäng ↑' : 'Browse →';
+			smoothToggle(allProductsSection, nextExpanded);
 		});
 	}
 
