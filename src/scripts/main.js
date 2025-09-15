@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function adjustQty(id, delta) {
+	  console.log("Starting adjusting quantity")
       const cart = getCart();
       if (!cart || cart.length === 0) return;
 
@@ -143,9 +144,24 @@ document.addEventListener('DOMContentLoaded', () => {
         cart.splice(idx, 1);
       } else {
         // update quantity
+		console.log(cart[idx].quantity);
         cart[idx].quantity = newQty;
+		console.log(cart[idx].quantity);
+		console.log("updating quantity");
       }
+	  console.log("finished adjusting quantity")
+	  localStorage.setItem("cart", JSON.stringify(cart));
 		renderCart();
+	}
+
+	function removeFromCart(id) {
+		const cart = getCart();
+
+  		// Filter out the item you want to remove
+  		const updatedCart = cart.filter(item => String(item.id) !== String(id));
+
+  		// Save updated cart back to localStorage
+  		localStorage.setItem("cart", JSON.stringify(updatedCart));
 	}
 
 	cartBtn?.addEventListener('click', openCart);
@@ -160,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const t = e.target; if(!(t instanceof HTMLElement)) return;
 		if (t.dataset.inc) adjustQty(t.dataset.inc, 1);
 		else if (t.dataset.dec) adjustQty(t.dataset.dec, -1);
-		else if (t.dataset.del) { cart.delete(t.dataset.del); renderCart(); }
+		else if (t.dataset.del) { removeFromCart(t.dataset.del); renderCart(); }
 	});
 
 	document.querySelectorAll('.add-to-cart').forEach(btn => {
