@@ -8,11 +8,14 @@ const PORT = process.env.PORT || 3000;
 // Parse JSON bodies
 app.use(express.json());
 
-// Serve static frontend from /src
-const staticDir = path.join(__dirname, '..', 'src');
+// Determine project root (two levels up from this file: Backend/server -> project root)
+const projectRoot = path.join(__dirname, '..', '..');
+
+// Serve static frontend from actual /src folder at project root
+const staticDir = path.join(projectRoot, 'src');
 app.use(express.static(staticDir));
 
-// Serve the SPA entry point
+// Serve the main index.html
 app.get('/', (_req, res) => {
   res.sendFile(path.join(staticDir, 'index.html'));
 });
