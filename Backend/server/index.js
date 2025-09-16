@@ -3,7 +3,7 @@ const path = require('path');
 const Database = require('better-sqlite3');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 5500;
 
 // Parse JSON bodies
 app.use(express.json());
@@ -64,6 +64,7 @@ app.post('/api/login', (req, res) => {
 app.get('/api/products', (_req, res) => {
   try {
     const rows = db.prepare('SELECT * FROM products').all();
+    console.log("Sending: " + json(rows))
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: String(err.message || err) });
