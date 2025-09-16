@@ -22,6 +22,11 @@ app.get('/', (_req, res) => {
   res.sendFile(path.join(staticDir, 'index.html'));
 });
 
+// Serve checkout page from project root
+app.get('/checkout.html', (_req, res) => {
+  res.sendFile(path.join(projectRoot, 'checkout.html'));
+});
+
 // Connect to SQLite database (creates file if it doesn't exist)
 const dbPath = path.join(__dirname, '..', 'webshop.db');
 const db = new Database(dbPath);
@@ -66,7 +71,11 @@ app.post('/api/login', (req, res) => {
 app.get('/api/products', (_req, res) => {
   try {
     const rows = db.prepare('SELECT * FROM products').all();
+<<<<<<< HEAD
     console.log("Sending: " + rows)
+=======
+    console.log(`Sending ${rows.length} products`);
+>>>>>>> 54ee256b14efb9f2adc4ae553763a8a54fd88a9f
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: String(err.message || err) });

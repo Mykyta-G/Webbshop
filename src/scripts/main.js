@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		let cart = getCart();
 		cartItemsEl.innerHTML = '';
 		let total = 0; let count = 0;
-		if (cart.size === 0){
+		if (cart.length === 0){
 			emptyMsg.classList.remove('hidden');
 		} else {
 			emptyMsg.classList.add('hidden');
@@ -169,7 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	cartOverlay?.addEventListener('click', closeCart);
 
 	checkoutBtn?.addEventListener('click', () => {
-		if(cart.size===0) return; alert('Checkout not implemented. Total: '+cartTotalEl.textContent); closeCart();
+		const cart = getCart();
+		if (!cart || cart.length === 0) return;
+		// Navigate to checkout page (checkout.html is at project root; index.html is under src/)
+		window.location.href = '../checkout.html';
 	});
 
 	cartItemsEl?.addEventListener('click', e => {
@@ -179,17 +182,20 @@ document.addEventListener('DOMContentLoaded', () => {
 		else if (t.dataset.del) { removeFromCart(t.dataset.del); renderCart(); }
 	});
 
-	document.querySelectorAll('.add-to-cart').forEach(btn => {
-		btn.addEventListener('click', () => {
-			const card = btn.closest('[data-product-id]');
-			if(!card) return;
-			const product = {
-				id: card.getAttribute('data-product-id'),
-				name: card.getAttribute('data-product-name'),
-				price: Number(card.getAttribute('data-product-price'))
-			};
-			addToCart(product);
-		});
+	// Event delegation for dynamically injected product cards
+	document.addEventListener('click', (e) => {
+		const target = e.target;
+		if (!(target instanceof HTMLElement)) return;
+		const btn = target.closest('.add-to-cart');
+		if (!btn) return;
+		const card = btn.closest('[data-product-id]');
+		if (!card) return;
+		const product = {
+			id: card.getAttribute('data-product-id'),
+			name: card.getAttribute('data-product-name'),
+			price: Number(card.getAttribute('data-product-price'))
+		};
+		addToCart(product);
 	});
 
 	// Initial render
