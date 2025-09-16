@@ -71,11 +71,7 @@ app.post('/api/login', (req, res) => {
 app.get('/api/products', (_req, res) => {
   try {
     const rows = db.prepare('SELECT * FROM products').all();
-<<<<<<< HEAD
-    console.log("Sending: " + rows)
-=======
     console.log(`Sending ${rows.length} products`);
->>>>>>> 54ee256b14efb9f2adc4ae553763a8a54fd88a9f
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: String(err.message || err) });
