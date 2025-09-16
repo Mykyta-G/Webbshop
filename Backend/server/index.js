@@ -53,8 +53,8 @@ db.prepare(`CREATE TABLE IF NOT EXISTS users (
 // Seed default users if empty
 const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get().count;
 if (userCount === 0) {
-  db.prepare('INSERT INTO users (email, password, is_admin) VALUES (?, ?, ?)').run('admin', 'adminpassword', 1);
-  db.prepare('INSERT INTO users (email, password, is_admin) VALUES (?, ?, ?)').run('user', 'userpassword', 0);
+  db.prepare('INSERT INTO users (email, password, is_admin) VALUES (?, ?, ?)').run('admin@mail.com', 'adminpassword', 1);
+  db.prepare('INSERT INTO users (email, password, is_admin) VALUES (?, ?, ?)').run('user@mail.com', 'userpassword', 0);
 }
 
 // Auth: simple demo login (no sessions, no hashing — for demo only)
