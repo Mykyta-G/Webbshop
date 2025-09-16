@@ -10,23 +10,3 @@ body { font-family: 'Inter', system-ui, sans-serif; }
 .nav-link { position:relative; font-weight:500; }
 .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:#444; transition:width .25s ease; }
 .nav-link:hover::after { width:100%; }
-
-/* HOT + fire emoji animation */
-.hot-badge { background: #fff; border: 1px dashed #a3a3a3; border-radius: 9999px; color: #171717; font-size: 0.95rem; padding: 0.2rem 0.5rem; }
-.fire-emoji { display:inline-block; filter: drop-shadow(0 0 4px rgba(255,87,34,.4)); font-size: 1.2rem;
-	animation: fire-bob 1.2s ease-in-out infinite;
-}
-@keyframes fire-bob { 0%,100%{ transform: translateY(0) rotate(0deg) scale(1); }
-	50% { transform: translateY(-2px) rotate(-6deg) scale(1.05); }
-}
-
-/* Low stock highlight */
-.low-stock { color:#737373; /* neutral-500 */ font-size: 1.05rem; }
-@keyframes pulse-glow { 0%,100% { transform: scale(1); opacity: 1; }
-	50% { transform: scale(1.03); opacity: 0.85; }
-}
-
-/* Respect reduced motion preferences */
-@media (prefers-reduced-motion: reduce) {
-	.fire-emoji, .low-stock { animation: none !important; }
-}
