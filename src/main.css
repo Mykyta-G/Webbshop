@@ -30,3 +30,16 @@ body { font-family: 'Inter', system-ui, sans-serif; }
 @media (prefers-reduced-motion: reduce) {
 	.fire-emoji, .low-stock { animation: none !important; }
 }
+
+/* Smooth expand/collapse for Browse panel */
+.collapsible {
+	overflow: hidden;
+	height: 0;
+	opacity: 0;
+	transition: height 280ms ease, opacity 220ms ease;
+}
+.collapsible.is-open { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+	.collapsible { transition: none; }
+}

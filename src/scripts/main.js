@@ -39,68 +39,66 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
-	// Expand/collapse all products
+	// Expand/collapse all products (smooth)
 	const allProductsBtn = document.getElementById('toggleAllProducts');
 	const allProductsSection = document.getElementById('allProducts');
 	if (allProductsBtn && allProductsSection) {
-		function smoothToggle(section, show) {
-			const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			if (reduceMotion) {
-				// No animation: just toggle visibility
-				if (show) section.classList.remove('hidden'); else section.classList.add('hidden');
+		const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		function openPanel(el){
+			el.classList.add('is-open');
+			if (reduceMotion){
+				el.style.height = 'auto';
+				el.style.opacity = '1';
 				return;
 			}
-
-			if (show) {
-				// Prepare for expand
-				section.classList.remove('hidden');
-				section.style.overflow = 'hidden';
-				section.style.height = '0px';
-				section.style.opacity = '0';
-				section.style.transition = 'height 300ms ease, opacity 300ms ease';
-				// Force reflow and animate to natural height
-				requestAnimationFrame(() => {
-					section.style.height = section.scrollHeight + 'px';
-					section.style.opacity = '1';
-				});
-				const onEnd = (e) => {
-					if (e.propertyName !== 'height') return;
-					section.style.height = '';
-					section.style.opacity = '';
-					section.style.overflow = '';
-					section.style.transition = '';
-					section.removeEventListener('transitionend', onEnd);
-				};
-				section.addEventListener('transitionend', onEnd);
-			} else {
-				// Collapse
-				section.style.overflow = 'hidden';
-				section.style.height = section.scrollHeight + 'px';
-				section.style.opacity = '1';
-				section.style.transition = 'height 300ms ease, opacity 300ms ease';
-				requestAnimationFrame(() => {
-					section.style.height = '0px';
-					section.style.opacity = '0';
-				});
-				const onEnd = (e) => {
-					if (e.propertyName !== 'height') return;
-					section.classList.add('hidden');
-					section.style.height = '';
-					section.style.opacity = '';
-					section.style.overflow = '';
-					section.style.transition = '';
-					section.removeEventListener('transitionend', onEnd);
-				};
-				section.addEventListener('transitionend', onEnd);
-			}
+			el.style.height = '0px';
+			el.style.opacity = '0';
+			requestAnimationFrame(() => {
+				el.style.height = el.scrollHeight + 'px';
+				el.style.opacity = '1';
+			});
+			const onEnd = (e) => {
+				if (e.propertyName !== 'height') return;
+				el.style.height = 'auto';
+				el.removeEventListener('transitionend', onEnd);
+			};
+			el.addEventListener('transitionend', onEnd);
 		}
+
+		function closePanel(el){
+			if (reduceMotion){
+				el.classList.remove('is-open');
+				el.style.height = '0px';
+				el.style.opacity = '0';
+				return;
+			}
+			el.style.height = el.scrollHeight + 'px';
+			el.style.opacity = '1';
+			requestAnimationFrame(() => {
+				el.style.height = '0px';
+				el.style.opacity = '0';
+			});
+			const onEnd = (e) => {
+				if (e.propertyName !== 'height') return;
+				el.classList.remove('is-open');
+				el.removeEventListener('transitionend', onEnd);
+			};
+			el.addEventListener('transitionend', onEnd);
+		}
+
+		// Initial closed state
+		allProductsSection.classList.remove('is-open');
+		allProductsSection.style.height = '0px';
+		allProductsSection.style.opacity = '0';
+		allProductsBtn.setAttribute('aria-expanded', 'false');
 
 		allProductsBtn.addEventListener('click', () => {
 			const expanded = allProductsBtn.getAttribute('aria-expanded') === 'true';
 			const nextExpanded = !expanded;
 			allProductsBtn.setAttribute('aria-expanded', String(nextExpanded));
 			allProductsBtn.textContent = nextExpanded ? 'Stäng ↑' : 'Browse →';
-			smoothToggle(allProductsSection, nextExpanded);
+			nextExpanded ? openPanel(allProductsSection) : closePanel(allProductsSection);
 		});
 	}
 
