@@ -1,12 +1,14 @@
 const express = require('express');
 const path = require('path');
 const Database = require('better-sqlite3');
+const cors = require("cors");
 
 const app = express();
-const PORT = 5500;
+const PORT = 3000;
 
 // Parse JSON bodies
 app.use(express.json());
+app.use(cors());
 
 // Determine project root (two levels up from this file: Backend/server -> project root)
 const projectRoot = path.join(__dirname, '..', '..');
@@ -64,7 +66,7 @@ app.post('/api/login', (req, res) => {
 app.get('/api/products', (_req, res) => {
   try {
     const rows = db.prepare('SELECT * FROM products').all();
-    console.log("Sending: " + json(rows))
+    console.log("Sending: " + rows)
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: String(err.message || err) });
