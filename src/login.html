@@ -52,27 +52,34 @@
         <p class="text-neutral-500 mt-2">Access your account to view orders and manage details.</p>
       </div>
 
-      <div class="max-w-md">
-        <form id="loginForm" class="bg-white/70 border border-neutral-300 rounded-xl p-5 space-y-4" action="#" method="post">
-          <div>
-            <label for="loginEmail" class="block text-xs text-neutral-500 mb-1">Email</label>
-            <input id="loginEmail" name="email" type="email" required placeholder="you@example.com" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+  <div class="flex flex-col md:flex-row items-start md:justify-between gap-10">
+        <div class="w-full max-w-md md:flex-1">
+          <form id="loginForm" class="bg-white/70 border border-neutral-300 rounded-xl p-5 space-y-4" action="#" method="post">
+            <div>
+              <label for="loginEmail" class="block text-xs text-neutral-500 mb-1">Email</label>
+              <input id="loginEmail" name="email" type="email" required placeholder="you@example.com" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+            </div>
+            <div>
+              <label for="loginPassword" class="block text-xs text-neutral-500 mb-1">Password</label>
+              <input id="loginPassword" name="password" type="password" required placeholder="••••••••" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+            </div>
+            <div class="flex items-center justify-between text-sm">
+              <label class="inline-flex items-center gap-2">
+                <input type="checkbox" class="accent-neutral-800" name="remember">
+                <span>Remember me</span>
+              </label>
+              <a href="#" class="text-neutral-600 hover:text-neutral-900">Forgot password?</a>
+            </div>
+            <button type="submit" class="w-full bg-neutral-900 text-white text-sm py-2 rounded">Log in</button>
+            <p class="text-xs text-neutral-500 text-center">No account? <a href="/#contact" class="underline">Contact us</a>.</p>
+            <p id="loginError" class="text-sm text-red-600 text-center hidden"></p>
+          </form>
+        </div>
+        <div class="hidden md:block md:w-[360px] lg:w-[410px] md:ml-auto md:shrink-0 md:-mt-14">
+          <div class="rounded-2xl overflow-hidden">
+            <img src="/media/Fidget-Placeholder.webp" alt="Featured fidget spinner" class="w-full h-auto block" loading="lazy">
           </div>
-          <div>
-            <label for="loginPassword" class="block text-xs text-neutral-500 mb-1">Password</label>
-            <input id="loginPassword" name="password" type="password" required placeholder="••••••••" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400" />
-          </div>
-          <div class="flex items-center justify-between text-sm">
-            <label class="inline-flex items-center gap-2">
-              <input type="checkbox" class="accent-neutral-800" name="remember">
-              <span>Remember me</span>
-            </label>
-            <a href="#" class="text-neutral-600 hover:text-neutral-900">Forgot password?</a>
-          </div>
-          <button type="submit" class="w-full bg-neutral-900 text-white text-sm py-2 rounded">Log in</button>
-          <p class="text-xs text-neutral-500 text-center">No account? <a href="/#contact" class="underline">Contact us</a>.</p>
-          <p id="loginError" class="text-sm text-red-600 text-center hidden"></p>
-        </form>
+        </div>
       </div>
     </section>
   </main>
