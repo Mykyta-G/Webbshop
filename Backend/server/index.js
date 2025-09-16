@@ -32,7 +32,8 @@ db.prepare(`CREATE TABLE IF NOT EXISTS products (
   description TEXT,
   price REAL NOT NULL,
   color TEXT NOT NULL DEFAULT '',
-  spin TEXT NOT NULL DEFAULT ''
+  spin TEXT NOT NULL DEFAULT '',
+  image TEXT DEFAULT NULL
 )`).run();
 
 // Create users table if it doesn't exist
@@ -88,9 +89,9 @@ app.post('/api/products', (req, res) => {
       return res.status(400).json({ error: 'Missing required fields: name, price' });
     }
     const info = db
-      .prepare('INSERT INTO products (name, description, price, color, spin) VALUES (?, ?, ?, ?, ?)')
-      .run(name, description ?? null, price, color, spin);
-    res.status(201).json({ id: info.lastInsertRowid, name, description, price, color, spin });
+      .prepare('INSERT INTO products (name, description, price, color, spin, image) VALUES (?, ?, ?, ?, ?, ?)')
+      .run(name, description ?? null, price, color, spin, req.body.image ?? null);
+    res.status(201).json({ id: info.lastInsertRowid, name, description, price, color, spin, image: req.body.image ?? null });
   } catch (err) {
     res.status(500).json({ error: String(err.message || err) });
   }
