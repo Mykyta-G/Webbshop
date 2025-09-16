@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Checkout • Webbshop</title>
+    <meta name="description" content="Checkout for Fidget Shop" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Paths are relative to repo root since this file is at project root -->
+    <link rel="stylesheet" href="src/main.css" />
+    <script defer src="src/scripts/checkout.js"></script>
+</head>
+<body class="font-inter bg-neutral-100 text-neutral-800 selection:bg-neutral-300">
+    <!-- Header (kept consistent with index.html, but links point to src/index.html) -->
+    <header class="fixed top-0 inset-x-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <a href="src/index.html#hero" class="flex items-center gap-2 font-semibold tracking-wide text-neutral-900">
+                <span class="text-lg">LOGO</span>
+            </a>
+            <nav class="hidden md:block" aria-label="Main">
+                <ul class="flex items-center gap-10 text-sm font-medium text-neutral-500">
+                    <li><a class="nav-link hover:text-neutral-900 transition" href="src/index.html#products">Produkter</a></li>
+                    <li><a class="nav-link hover:text-neutral-900 transition" href="src/index.html#about">Om oss</a></li>
+                    <li><a class="nav-link hover:text-neutral-900 transition" href="src/index.html#contact">Kontakt</a></li>
+                </ul>
+            </nav>
+            <div class="flex items-center gap-4">
+                <a href="#orderSummary" id="cartButton" class="relative p-2 rounded border border-dashed border-neutral-400 text-[10px] tracking-wide text-neutral-500" aria-label="Cart" aria-expanded="false">
+                    CART
+                    <span id="cartCount" class="absolute -top-1 -right-1 px-1.5 py-[1px] text-[10px] rounded bg-neutral-900 text-white hidden"></span>
+                </a>
+                <button class="md:hidden flex flex-col justify-center gap-[5px] w-9 h-9 rounded-lg hover:bg-white/10 group nav-toggle" aria-label="Menu" aria-expanded="false">
+                    <span class="h-0.5 w-5 bg-neutral-900 transition"></span>
+                    <span class="h-0.5 w-5 bg-neutral-900 transition"></span>
+                    <span class="h-0.5 w-5 bg-neutral-900 transition"></span>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div class="mobile-menu md:hidden hidden border-t border-neutral-300 bg-white/90 backdrop-blur" id="mobileMenu">
+            <nav class="px-4 py-4" aria-label="Mobile">
+                <ul class="flex flex-col gap-4 text-sm font-medium">
+                    <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="src/index.html#products">Produkter</a></li>
+                    <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="src/index.html#about">Om oss</a></li>
+                    <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="src/index.html#contact">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-24 pb-20">
+        <section class="max-w-6xl mx-auto px-4">
+            <div class="mb-8">
+                <h1 class="text-4xl font-extrabold tracking-tight">Checkout</h1>
+                <p class="text-neutral-500 mt-2">Complete your order below.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Customer details -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Contact information -->
+                    <section class="bg-white/70 border border-neutral-300 rounded-xl p-5">
+                        <h2 class="text-lg font-semibold mb-4">Contact information</h2>
+                        <form id="checkoutForm" action="https://formspree.io/f/mrblwldb" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Hidden fields populated by JS before submit -->
+                            <input type="hidden" name="_subject" id="subjectInput" value="New order from Fidget Shop" />
+                            <input type="hidden" name="_replyto" id="replyTo" />
+                            <input type="hidden" name="total" id="orderTotal" />
+                            <input type="hidden" name="order" id="orderPayload" />
+                            <!-- Optional: redirect after success -->
+                            <input type="hidden" name="_next" value="src/index.html#hero" />
+                            <div class="md:col-span-2">
+                                <label class="block text-xs text-neutral-500 mb-1" for="email">Email</label>
+                                <input id="email" name="email" type="email" required placeholder="you@example.com" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+                            </div>
+                            <div>
+                                <label class="block text-xs text-neutral-500 mb-1" for="firstName">First name</label>
+                                <input id="firstName" name="firstName" required placeholder="Anna" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+                            </div>
+                            <div>
+                                <label class="block text-xs text-neutral-500 mb-1" for="lastName">Last name</label>
+                                <input id="lastName" name="lastName" required placeholder="Svensson" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-xs text-neutral-500 mb-1" for="address">Address</label>
+                                <input id="address" name="address" required placeholder="Storgatan 1" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+                            </div>
+                            <div>
+                                <label class="block text-xs text-neutral-500 mb-1" for="zip">ZIP</label>
+                                <input id="zip" name="zip" required placeholder="123 45" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+                            </div>
+                            <div>
+                                <label class="block text-xs text-neutral-500 mb-1" for="city">City</label>
+                                <input id="city" name="city" required placeholder="Stockholm" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-xs text-neutral-500 mb-1" for="notes">Notes (optional)</label>
+                                <textarea id="notes" name="notes" rows="3" placeholder="Delivery notes..." class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 resize-y"></textarea>
+                            </div>
+                            <div class="md:col-span-2 flex items-center gap-3">
+                                <a href="src/index.html#products" class="px-4 py-2 border-2 border-dashed border-neutral-400 rounded text-sm text-neutral-700">Continue shopping</a>
+                                <button id="placeOrder" type="submit" class="px-5 py-2 bg-neutral-900 text-white text-sm rounded disabled:opacity-40 disabled:cursor-not-allowed">Place order</button>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!-- Payment mock (optional visuals) -->
+                    <section class="bg-white/70 border border-neutral-300 rounded-xl p-5">
+                        <h2 class="text-lg font-semibold mb-4">Payment</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                            <label class="flex items-center gap-2 border-2 border-dashed border-neutral-300 rounded p-3 cursor-pointer">
+                                <input type="radio" name="payment" value="card" class="accent-neutral-800" checked>
+                                <span>Card</span>
+                            </label>
+                            <label class="flex items-center gap-2 border-2 border-dashed border-neutral-300 rounded p-3 cursor-pointer">
+                                <input type="radio" name="payment" value="swish" class="accent-neutral-800">
+                                <span>Swish</span>
+                            </label>
+                            <label class="flex items-center gap-2 border-2 border-dashed border-neutral-300 rounded p-3 cursor-pointer">
+                                <input type="radio" name="payment" value="invoice" class="accent-neutral-800">
+                                <span>Invoice</span>
+                            </label>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Order summary -->
+                <aside id="orderSummary" class="lg:col-span-1">
+                    <div class="bg-white/70 border border-neutral-300 rounded-xl p-5 sticky top-24">
+                        <h2 class="text-lg font-semibold mb-4">Order summary</h2>
+                        <div id="summaryItems" class="space-y-3 text-sm">
+                            <p id="emptyMsg" class="text-neutral-500 text-xs">Your cart is empty.</p>
+                        </div>
+                        <div class="mt-4 border-t border-neutral-200 pt-4 space-y-2 text-sm">
+                            <div class="flex items-center justify-between">
+                                <span class="text-neutral-600">Subtotal</span>
+                                <span id="summarySubtotal" class="font-medium">0 kr</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-neutral-600">Shipping</span>
+                                <span id="summaryShipping" class="text-neutral-500">Free</span>
+                            </div>
+                            <div class="flex items-center justify-between text-base pt-1 border-t border-neutral-200">
+                                <span class="text-neutral-800 font-medium">Total</span>
+                                <span id="summaryTotal" class="font-semibold">0 kr</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-10 border-t border-neutral-300 bg-white/70 text-sm">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-neutral-500">
+            <p>&copy; <span id="year"></span> FIDGET SHOP</p>
+            <a class="text-neutral-600 hover:text-neutral-900" href="src/index.html#hero">Back to start</a>
+        </div>
+    </footer>
+</body>
+</html>
