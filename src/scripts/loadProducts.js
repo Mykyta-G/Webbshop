@@ -8,7 +8,7 @@ async function loadProducts() {
     products.forEach(product => {
         const productCard = `
           <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2 flex flex-col" data-product-id="4" data-product-name="Glow Spinner" data-product-price="159">
-            <img src="media/${product.image || temp.png}" alt="Glow Spinner" class="w-full h-auto block mb-2" loading="lazy">
+            <img src="media/${product.image || "temp.png"}" alt="Glow Spinner" class="w-full h-auto block mb-2" loading="lazy">
             <div class="flex items-center justify-between text-xs">
               <span>${product.name}</span>
               <span class="text-neutral-500">${product.price} kr</span>
