@@ -46,7 +46,7 @@ db.prepare(`CREATE TABLE IF NOT EXISTS products (
 // Create users table if it doesn't exist
 db.prepare(`CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT UNIQUE NOT NULL,
+  email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   is_admin INTEGER NOT NULL DEFAULT 0
 )`).run();
@@ -54,16 +54,16 @@ db.prepare(`CREATE TABLE IF NOT EXISTS users (
 // Seed default users if empty
 const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get().count;
 if (userCount === 0) {
-  db.prepare('INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)').run('admin', 'adminpassword', 1);
-  db.prepare('INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)').run('user', 'userpassword', 0);
+  db.prepare('INSERT INTO users (email, password, is_admin) VALUES (?, ?, ?)').run('admin@mail.com', 'adminpassword', 1);
+  db.prepare('INSERT INTO users (email, password, is_admin) VALUES (?, ?, ?)').run('user@mail.com', 'userpassword', 0);
 }
 
 // Auth: simple demo login (no sessions, no hashing — for demo only)
 app.post('/api/login', (req, res) => {
-  const { username, password } = req.body || {};
-  const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
+  const { email, password } = req.body || {};
+  const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
   if (!user || user.password !== password) {
-    return res.status(401).json({ error: 'Invalid username or password' });
+    return res.status(401).json({ error: 'Invalid email or password' });
   }
   res.json({ message: 'Login successful', user });
 });

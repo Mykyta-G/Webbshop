@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Log in • Fidget Shop</title>
+  <meta name="description" content="Login page for Fidget Shop" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="src/main.css" />
+</head>
+<body class="font-inter bg-neutral-100 text-neutral-800 selection:bg-neutral-300">
+  <!-- Header -->
+  <header class="fixed top-0 inset-x-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="src/index.html#hero" class="flex items-center gap-2 font-semibold tracking-wide text-neutral-900">
+        <span class="text-lg">LOGO</span>
+      </a>
+      <nav class="hidden md:block" aria-label="Main">
+        <ul class="flex items-center gap-10 text-sm font-medium text-neutral-500">
+          <li><a class="nav-link hover:text-neutral-900 transition" href="src/index.html#products">Produkter</a></li>
+          <li><a class="nav-link hover:text-neutral-900 transition" href="src/index.html#about">Om oss</a></li>
+          <li><a class="nav-link hover:text-neutral-900 transition" href="src/index.html#contact">Kontakt</a></li>
+        </ul>
+      </nav>
+      <div class="flex items-center gap-4">
+        <a href="checkout.html#orderSummary" class="relative p-2 rounded border border-dashed border-neutral-400 text-[10px] tracking-wide text-neutral-500" aria-label="Cart">
+          CART
+        </a>
+        <a href="#" class="inline-flex items-center justify-center w-9 h-9 rounded-full border border-dashed border-neutral-400 bg-white/40 text-neutral-700" aria-label="You are on the login page">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a8.25 8.25 0 1115 0v.75H4.5v-.75z" />
+          </svg>
+        </a>
+        <button class="md:hidden flex flex-col justify-center gap-[5px] w-9 h-9 rounded-lg hover:bg-white/10 group nav-toggle" aria-label="Menu" aria-expanded="false">
+          <span class="h-0.5 w-5 bg-neutral-900 transition"></span>
+          <span class="h-0.5 w-5 bg-neutral-900 transition"></span>
+          <span class="h-0.5 w-5 bg-neutral-900 transition"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-24 pb-20">
+    <section class="max-w-6xl mx-auto px-4">
+      <div class="mb-8">
+        <h1 class="text-4xl font-extrabold tracking-tight">Log in</h1>
+        <p class="text-neutral-500 mt-2">Access your account to view orders and manage details.</p>
+      </div>
+
+      <div class="max-w-md">
+        <form id="loginForm" class="bg-white/70 border border-neutral-300 rounded-xl p-5 space-y-4" action="#" method="post">
+          <div>
+            <label for="loginEmail" class="block text-xs text-neutral-500 mb-1">Email</label>
+            <input id="loginEmail" name="email" type="email" required placeholder="you@example.com" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+          </div>
+          <div>
+            <label for="loginPassword" class="block text-xs text-neutral-500 mb-1">Password</label>
+            <input id="loginPassword" name="password" type="password" required placeholder="••••••••" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+          </div>
+          <div class="flex items-center justify-between text-sm">
+            <label class="inline-flex items-center gap-2">
+              <input type="checkbox" class="accent-neutral-800" name="remember">
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="text-neutral-600 hover:text-neutral-900">Forgot password?</a>
+          </div>
+          <button type="submit" class="w-full bg-neutral-900 text-white text-sm py-2 rounded">Log in</button>
+          <p class="text-xs text-neutral-500 text-center">No account? <a href="src/index.html#contact" class="underline">Contact us</a>.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-10 border-t border-neutral-300 bg-white/70 text-sm">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-neutral-500">
+      <p>&copy; <span id="year"></span> FIDGET SHOP</p>
+      <a class="text-neutral-600 hover:text-neutral-900" href="src/index.html#hero">Back to start</a>
+    </div>
+  </footer>
+
+  <script>
+    // Demo behavior: prevent actual submit and show a message
+    document.getElementById('loginForm')?.addEventListener('submit', function (e) {
+      e.preventDefault();
+      alert('Demo only: no real authentication is set up.');
+    });
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
