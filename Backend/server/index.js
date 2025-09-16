@@ -38,6 +38,7 @@ db.prepare(`CREATE TABLE IF NOT EXISTS products (
   name TEXT NOT NULL,
   description TEXT,
   price REAL NOT NULL,
+  image TEXT NOT NULL DEFAULT '',
   color TEXT NOT NULL DEFAULT '',
   spin TEXT NOT NULL DEFAULT ''
 )`).run();
@@ -96,9 +97,9 @@ app.post('/api/products', (req, res) => {
       return res.status(400).json({ error: 'Missing required fields: name, price' });
     }
     const info = db
-      .prepare('INSERT INTO products (name, description, price, color, spin) VALUES (?, ?, ?, ?, ?)')
-      .run(name, description ?? null, price, color, spin);
-    res.status(201).json({ id: info.lastInsertRowid, name, description, price, color, spin });
+      .prepare('INSERT INTO products (name, description, price, image, color, spin) VALUES (?, ?, ?, ?, ?, ?)')
+      .run(name, description ?? null, price, image ?? null, color, spin);
+    res.status(201).json({ id: info.lastInsertRowid, name, description, price, image, color, spin });
   } catch (err) {
     res.status(500).json({ error: String(err.message || err) });
   }
