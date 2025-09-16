@@ -22,9 +22,17 @@ app.get('/', (_req, res) => {
   res.sendFile(path.join(staticDir, 'index.html'));
 });
 
-// Serve checkout page from project root
+// Serve checkout page from src (moved HTMLs live in /src)
 app.get('/checkout.html', (_req, res) => {
-  res.sendFile(path.join(projectRoot, 'checkout.html'));
+  res.sendFile(path.join(staticDir, 'checkout.html'));
+});
+
+// Serve login pages from src
+app.get('/login', (_req, res) => {
+  res.sendFile(path.join(staticDir, 'login.html'));
+});
+app.get('/login.html', (_req, res) => {
+  res.sendFile(path.join(staticDir, 'login.html'));
 });
 
 // Connect to SQLite database (creates file if it doesn't exist)
@@ -64,7 +72,8 @@ app.post('/api/login', (req, res) => {
   if (!user || user.password !== password) {
     return res.status(401).json({ error: 'Invalid email or password' });
   }
-  res.json({ message: 'Login successful', user });
+  const safeUser = { id: user.id, email: user.email, is_admin: !!user.is_admin };
+  res.json({ message: 'Login successful', user: safeUser });
 });
 
 // Products APIs
@@ -103,6 +112,31 @@ app.post('/api/products', (req, res) => {
     res.status(500).json({ error: String(err.message || err) });
   }
 });
+
+// Dev-only helpers: list and reset users (do NOT enable in production)
+if (process.env.NODE_ENV !== 'production') {
+  app.get('/api/dev/users', (_req, res) => {
+    try {
+      const rows = db.prepare('SELECT id, email, is_admin FROM users ORDER BY id').all();
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ error: String(err.message || err) });
+    }
+  });
+
+  app.post('/api/dev/reset-users', (_req, res) => {
+    try {
+      db.prepare('DELETE FROM users').run();
+      db.prepare('INSERT INTO users (email, password, is_admin) VALUES (?, ?, ?)').run('admin@mail.com', 'adminpassword', 1);
+      db.prepare('INSERT INTO users (email, password, is_admin) VALUES (?, ?, ?)').run('user@mail.com', 'userpassword', 0);
+      const rows = db.prepare('SELECT id, email, is_admin FROM users ORDER BY id').all();
+      console.warn('DEV: Users table reset and reseeded');
+      res.json({ message: 'Users reset', users: rows });
+    } catch (err) {
+      res.status(500).json({ error: String(err.message || err) });
+    }
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
