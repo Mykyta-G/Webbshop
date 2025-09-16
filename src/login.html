@@ -9,27 +9,28 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link rel="stylesheet" href="src/main.css" />
+  <link rel="stylesheet" href="/main.css" />
+  <script defer src="/scripts/auth.js"></script>
 </head>
 <body class="font-inter bg-neutral-100 text-neutral-800 selection:bg-neutral-300">
   <!-- Header -->
   <header class="fixed top-0 inset-x-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-300">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <a href="src/index.html#hero" class="flex items-center gap-2 font-semibold tracking-wide text-neutral-900">
+      <a href="/#hero" class="flex items-center gap-2 font-semibold tracking-wide text-neutral-900">
         <span class="text-lg">LOGO</span>
       </a>
       <nav class="hidden md:block" aria-label="Main">
         <ul class="flex items-center gap-10 text-sm font-medium text-neutral-500">
-          <li><a class="nav-link hover:text-neutral-900 transition" href="src/index.html#products">Produkter</a></li>
-          <li><a class="nav-link hover:text-neutral-900 transition" href="src/index.html#about">Om oss</a></li>
-          <li><a class="nav-link hover:text-neutral-900 transition" href="src/index.html#contact">Kontakt</a></li>
+          <li><a class="nav-link hover:text-neutral-900 transition" href="/#products">Produkter</a></li>
+          <li><a class="nav-link hover:text-neutral-900 transition" href="/#about">Om oss</a></li>
+          <li><a class="nav-link hover:text-neutral-900 transition" href="/#contact">Kontakt</a></li>
         </ul>
       </nav>
       <div class="flex items-center gap-4">
-        <a href="checkout.html#orderSummary" class="relative p-2 rounded border border-dashed border-neutral-400 text-[10px] tracking-wide text-neutral-500" aria-label="Cart">
+        <a href="/checkout.html#orderSummary" class="relative p-2 rounded border border-dashed border-neutral-400 text-[10px] tracking-wide text-neutral-500" aria-label="Cart">
           CART
         </a>
-        <a href="#" class="inline-flex items-center justify-center w-9 h-9 rounded-full border border-dashed border-neutral-400 bg-white/40 text-neutral-700" aria-label="You are on the login page">
+        <a href="/login" id="profileButton" class="inline-flex items-center justify-center w-9 h-9 rounded-full border border-dashed border-neutral-400 bg-white/40 text-neutral-700" aria-label="You are on the login page">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a8.25 8.25 0 1115 0v.75H4.5v-.75z" />
@@ -69,7 +70,8 @@
             <a href="#" class="text-neutral-600 hover:text-neutral-900">Forgot password?</a>
           </div>
           <button type="submit" class="w-full bg-neutral-900 text-white text-sm py-2 rounded">Log in</button>
-          <p class="text-xs text-neutral-500 text-center">No account? <a href="src/index.html#contact" class="underline">Contact us</a>.</p>
+          <p class="text-xs text-neutral-500 text-center">No account? <a href="/#contact" class="underline">Contact us</a>.</p>
+          <p id="loginError" class="text-sm text-red-600 text-center hidden"></p>
         </form>
       </div>
     </section>
@@ -78,17 +80,54 @@
   <footer class="py-10 border-t border-neutral-300 bg-white/70 text-sm">
     <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-neutral-500">
       <p>&copy; <span id="year"></span> FIDGET SHOP</p>
-      <a class="text-neutral-600 hover:text-neutral-900" href="src/index.html#hero">Back to start</a>
+      <a class="text-neutral-600 hover:text-neutral-900" href="/#hero">Back to start</a>
     </div>
   </footer>
 
   <script>
-    // Demo behavior: prevent actual submit and show a message
-    document.getElementById('loginForm')?.addEventListener('submit', function (e) {
+    // Handle real login via backend
+    const form = document.getElementById('loginForm');
+    const errorEl = document.getElementById('loginError');
+    const submitBtn = form?.querySelector('button[type="submit"]');
+
+    form?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      alert('Demo only: no real authentication is set up.');
+      errorEl?.classList.add('hidden');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Logging in...';
+      }
+      const email = /** @type {HTMLInputElement} */(document.getElementById('loginEmail')).value.trim();
+      const password = /** @type {HTMLInputElement} */(document.getElementById('loginPassword')).value;
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.error || 'Login failed');
+        }
+        const data = await res.json();
+        const user = data.user || {};
+        localStorage.setItem('user', JSON.stringify({ id: user.id, email: user.email, is_admin: !!user.is_admin }));
+        window.location.href = '/';
+      } catch (err) {
+        if (errorEl) {
+          errorEl.textContent = err.message || 'Login failed';
+          errorEl.classList.remove('hidden');
+        } else {
+          alert(err.message || 'Login failed');
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Log in';
+        }
+      }
     });
-    // Footer year
+
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>

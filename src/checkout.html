@@ -9,22 +9,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Paths are relative to repo root since this file is at project root -->
-    <link rel="stylesheet" href="src/main.css" />
-    <script defer src="src/scripts/checkout.js"></script>
+    <link rel="stylesheet" href="/main.css" />
+    <script defer src="/scripts/checkout.js"></script>
 </head>
 <body class="font-inter bg-neutral-100 text-neutral-800 selection:bg-neutral-300">
     <!-- Header (kept consistent with index.html, but links point to src/index.html) -->
     <header class="fixed top-0 inset-x-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-300">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <a href="src/index.html#hero" class="flex items-center gap-2 font-semibold tracking-wide text-neutral-900">
+            <a href="/#hero" class="flex items-center gap-2 font-semibold tracking-wide text-neutral-900">
                 <span class="text-lg">LOGO</span>
             </a>
             <nav class="hidden md:block" aria-label="Main">
                 <ul class="flex items-center gap-10 text-sm font-medium text-neutral-500">
-                    <li><a class="nav-link hover:text-neutral-900 transition" href="src/index.html#products">Produkter</a></li>
-                    <li><a class="nav-link hover:text-neutral-900 transition" href="src/index.html#about">Om oss</a></li>
-                    <li><a class="nav-link hover:text-neutral-900 transition" href="src/index.html#contact">Kontakt</a></li>
+                    <li><a class="nav-link hover:text-neutral-900 transition" href="/#products">Produkter</a></li>
+                    <li><a class="nav-link hover:text-neutral-900 transition" href="/#about">Om oss</a></li>
+                    <li><a class="nav-link hover:text-neutral-900 transition" href="/#contact">Kontakt</a></li>
                 </ul>
             </nav>
             <div class="flex items-center gap-4">
@@ -43,9 +42,9 @@
         <div class="mobile-menu md:hidden hidden border-t border-neutral-300 bg-white/90 backdrop-blur" id="mobileMenu">
             <nav class="px-4 py-4" aria-label="Mobile">
                 <ul class="flex flex-col gap-4 text-sm font-medium">
-                    <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="src/index.html#products">Produkter</a></li>
-                    <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="src/index.html#about">Om oss</a></li>
-                    <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="src/index.html#contact">Kontakt</a></li>
+                    <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="/#products">Produkter</a></li>
+                    <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="/#about">Om oss</a></li>
+                    <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="/#contact">Kontakt</a></li>
                 </ul>
             </nav>
         </div>
@@ -71,7 +70,7 @@
                             <input type="hidden" name="total" id="orderTotal" />
                             <input type="hidden" name="order" id="orderPayload" />
                             <!-- Optional: redirect after success -->
-                            <input type="hidden" name="_next" value="src/index.html#hero" />
+                            <input type="hidden" name="_next" value="/#hero" />
                             <div class="md:col-span-2">
                                 <label class="block text-xs text-neutral-500 mb-1" for="email">Email</label>
                                 <input id="email" name="email" type="email" required placeholder="you@example.com" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400" />
@@ -101,7 +100,7 @@
                                 <textarea id="notes" name="notes" rows="3" placeholder="Delivery notes..." class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 resize-y"></textarea>
                             </div>
                             <div class="md:col-span-2 flex items-center gap-3">
-                                <a href="src/index.html#products" class="px-4 py-2 border-2 border-dashed border-neutral-400 rounded text-sm text-neutral-700">Continue shopping</a>
+                                <a href="/#products" class="px-4 py-2 border-2 border-dashed border-neutral-400 rounded text-sm text-neutral-700">Continue shopping</a>
                                 <button id="placeOrder" type="submit" class="px-5 py-2 bg-neutral-900 text-white text-sm rounded disabled:opacity-40 disabled:cursor-not-allowed">Place order</button>
                             </div>
                         </form>
@@ -158,7 +157,7 @@
     <footer class="py-10 border-t border-neutral-300 bg-white/70 text-sm">
         <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-neutral-500">
             <p>&copy; <span id="year"></span> FIDGET SHOP</p>
-            <a class="text-neutral-600 hover:text-neutral-900" href="src/index.html#hero">Back to start</a>
+            <a class="text-neutral-600 hover:text-neutral-900" href="/#hero">Back to start</a>
         </div>
     </footer>
 </body>

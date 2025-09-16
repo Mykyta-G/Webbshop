@@ -171,8 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	checkoutBtn?.addEventListener('click', () => {
 		const cart = getCart();
 		if (!cart || cart.length === 0) return;
-		// Navigate to checkout page (checkout.html is at project root; index.html is under src/)
-		window.location.href = '../checkout.html';
+			// Navigate to checkout page (HTMLs are now served from /src at site root)
+			window.location.href = '/checkout.html';
 	});
 
 	cartItemsEl?.addEventListener('click', e => {
