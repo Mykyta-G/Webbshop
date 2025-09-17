@@ -13,42 +13,51 @@
     <script defer src="/scripts/checkout.js"></script>
 </head>
 <body class="font-inter bg-neutral-100 text-neutral-800 selection:bg-neutral-300">
-    <!-- Header (kept consistent with index.html, but links point to src/index.html) -->
-    <header class="fixed top-0 inset-x-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-300">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <a href="/#hero" class="flex items-center gap-2 font-semibold tracking-wide text-neutral-900">
-                <span class="text-lg">LOGO</span>
-            </a>
-            <nav class="hidden md:block" aria-label="Main">
-                <ul class="flex items-center gap-10 text-sm font-medium text-neutral-500">
-                    <li><a class="nav-link hover:text-neutral-900 transition" href="/#products">Produkter</a></li>
-                    <li><a class="nav-link hover:text-neutral-900 transition" href="/#about">Om oss</a></li>
-                    <li><a class="nav-link hover:text-neutral-900 transition" href="/#contact">Kontakt</a></li>
-                </ul>
-            </nav>
-            <div class="flex items-center gap-4">
-                <a href="#orderSummary" id="cartButton" class="relative p-2 rounded border border-dashed border-neutral-400 text-[10px] tracking-wide text-neutral-500" aria-label="Cart" aria-expanded="false">
-                    CART
-                    <span id="cartCount" class="absolute -top-1 -right-1 px-1.5 py-[1px] text-[10px] rounded bg-neutral-900 text-white hidden"></span>
+        <!-- Header (consistent with index.html) -->
+        <header class="fixed top-0 inset-x-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-300">
+            <div class="w-full px-0 h-16 grid grid-cols-3 items-center">
+                <!-- Left: Logo -->
+                <a href="/#hero" class="flex items-center gap-2 font-semibold tracking-wide text-neutral-900 justify-self-start pl-5">
+                    <img src="/media/logga.png" alt="Logo" class="h-15 w-auto block" loading="lazy">
                 </a>
-                <button class="md:hidden flex flex-col justify-center gap-[5px] w-9 h-9 rounded-lg hover:bg-white/10 group nav-toggle" aria-label="Menu" aria-expanded="false">
-                    <span class="h-0.5 w-5 bg-neutral-900 transition"></span>
-                    <span class="h-0.5 w-5 bg-neutral-900 transition"></span>
-                    <span class="h-0.5 w-5 bg-neutral-900 transition"></span>
-                </button>
+                <!-- Center: Nav -->
+                <nav class="hidden md:block justify-self-center" aria-label="Main">
+                    <ul class="flex items-center gap-10 text-sm font-medium text-neutral-500">
+                        <li><a class="nav-link hover:text-neutral-900 transition" href="/#products">Produkter</a></li>
+                        <li><a class="nav-link hover:text-neutral-900 transition" href="/#about">Om oss</a></li>
+                        <li><a class="nav-link hover:text-neutral-900 transition" href="/#contact">Kontakt</a></li>
+                    </ul>
+                </nav>
+                <!-- Right: Actions -->
+                <div class="flex items-center gap-4 justify-self-end pr-5">
+                    <a href="#orderSummary" id="cartButton" class="relative p-2 rounded border border-dashed border-neutral-400 text-[10px] tracking-wide text-neutral-500" aria-label="Cart" aria-expanded="false">
+                        CART
+                        <span id="cartCount" class="absolute -top-1 -right-1 px-1.5 py-[1px] text-[10px] rounded bg-neutral-900 text-white hidden"></span>
+                    </a>
+                    <a href="/login" id="profileButton" class="inline-flex items-center justify-center w-9 h-9 rounded-full border border-dashed border-neutral-400 hover:bg-white/40 transition focus:outline-none focus:ring-2 focus:ring-neutral-400" aria-label="Log in">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5 text-neutral-700" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a8.25 8.25 0 1115 0v.75H4.5v-.75z" />
+                        </svg>
+                    </a>
+                                <button class="md:hidden flex flex-col justify-center gap-[5px] w-9 h-9 rounded-lg hover:bg-white/10 group nav-toggle" aria-label="Menu" aria-expanded="false">
+                                    <span class="h-0.5 w-5 bg-white transition"></span>
+                                    <span class="h-0.5 w-5 bg-white transition"></span>
+                                    <span class="h-0.5 w-5 bg-white transition"></span>
+                    </button>
+                </div>
             </div>
-        </div>
-        <!-- Mobile menu -->
-        <div class="mobile-menu md:hidden hidden border-t border-neutral-300 bg-white/90 backdrop-blur" id="mobileMenu">
-            <nav class="px-4 py-4" aria-label="Mobile">
-                <ul class="flex flex-col gap-4 text-sm font-medium">
-                    <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="/#products">Produkter</a></li>
-                    <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="/#about">Om oss</a></li>
-                    <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="/#contact">Kontakt</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+            <!-- Mobile menu -->
+            <div class="mobile-menu md:hidden hidden border-t border-neutral-300 bg-white/90 backdrop-blur" id="mobileMenu">
+                <nav class="px-4 py-4" aria-label="Mobile">
+                    <ul class="flex flex-col gap-4 text-sm font-medium">
+                        <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="/#products">Produkter</a></li>
+                        <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="/#about">Om oss</a></li>
+                        <li><a class="block px-2 py-1 rounded hover:bg-neutral-200" href="/#contact">Kontakt</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
 
     <main class="pt-24 pb-20">
         <section class="max-w-6xl mx-auto px-4">
@@ -152,6 +161,29 @@
             </div>
         </section>
     </main>
+
+        <script>
+            // Minimal mobile nav toggle and footer year (checkout loads its own JS)
+            (function(){
+                try {
+                    const toggle = document.querySelector('.nav-toggle');
+                    const mobileMenu = document.getElementById('mobileMenu');
+                    const yearSpan = document.getElementById('year');
+                    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+                    if (toggle && mobileMenu) {
+                        toggle.addEventListener('click', () => {
+                            const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+                            toggle.setAttribute('aria-expanded', String(!isOpen));
+                            mobileMenu.classList.toggle('hidden');
+                        });
+                        mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+                            mobileMenu.classList.add('hidden');
+                            toggle.setAttribute('aria-expanded', 'false');
+                        }));
+                    }
+                } catch (e) { /* noop */ }
+            })();
+        </script>
 
     <!-- Footer -->
     <footer class="py-10 border-t border-neutral-300 bg-white/70 text-sm">
