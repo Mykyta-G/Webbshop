@@ -12,11 +12,21 @@ async function loadProducts() {
       const id = product.id;
       const name = product.name || 'Product';
       const price = Number(product.price) || 0;
-      const img = product.image || 'temp.png';
+      const imgRaw = (product.image || '').trim();
+      let imgSrc = '/media/temp.png';
+      if (imgRaw) {
+        if (imgRaw.startsWith('http://') || imgRaw.startsWith('https://') || imgRaw.startsWith('/')) {
+          imgSrc = imgRaw;
+        } else if (imgRaw.startsWith('media/')) {
+          imgSrc = '/' + imgRaw.replace(/^\/+/, '');
+        } else {
+          imgSrc = '/media/' + imgRaw.replace(/^\/+/, '');
+        }
+      }
       return `
         <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2 flex flex-col" 
              data-product-id="${id}" data-product-name="${name}" data-product-price="${price}">
-          <img src="media/${img}" alt="${name}" class="w-full h-auto block mb-2" loading="lazy">
+          <img src="${imgSrc}" alt="${name}" class="w-full h-auto block mb-2" loading="lazy">
           <div class="flex items-center justify-between text-xs">
             <span>${name}</span>
             <span class="text-neutral-500">${price} kr</span>

@@ -119,7 +119,12 @@
         const data = await res.json();
         const user = data.user || {};
         localStorage.setItem('user', JSON.stringify({ id: user.id, email: user.email, is_admin: !!user.is_admin }));
-        window.location.href = '/';
+        // If admin, go straight to admin page; otherwise go home
+        if (user.is_admin) {
+          window.location.href = '/admin.html';
+        } else {
+          window.location.href = '/';
+        }
       } catch (err) {
         if (errorEl) {
           errorEl.textContent = err.message || 'Login failed';

@@ -35,6 +35,14 @@ app.get('/login.html', (_req, res) => {
   res.sendFile(path.join(staticDir, 'login.html'));
 });
 
+// Serve admin page from src
+app.get('/admin', (_req, res) => {
+  res.sendFile(path.join(staticDir, 'admin.html'));
+});
+app.get('/admin.html', (_req, res) => {
+  res.sendFile(path.join(staticDir, 'admin.html'));
+});
+
 // Connect to SQLite database (creates file if it doesn't exist)
 const dbPath = path.join(__dirname, '..', 'webshop.db');
 const db = new Database(dbPath);
@@ -110,6 +118,30 @@ app.post('/api/products', (req, res) => {
       .prepare('INSERT INTO products (name, description, price, image, color, spin) VALUES (?, ?, ?, ?, ?, ?)')
       .run(name.trim(), description ?? null, priceNum, image || '', color, spin);
     res.status(201).json({ id: info.lastInsertRowid, name, description, price: priceNum, image, color, spin });
+  } catch (err) {
+    res.status(500).json({ error: String(err.message || err) });
+  }
+});
+
+// Delete a product
+app.delete('/api/products/:id', (req, res) => {
+  try {
+    const { id } = req.params;
+    const info = db.prepare('DELETE FROM products WHERE id = ?').run(id);
+    if (info.changes === 0) return res.status(404).json({ error: 'Product not found' });
+    res.status(204).end();
+  } catch (err) {
+    res.status(500).json({ error: String(err.message || err) });
+  }
+});
+
+// Fallback delete via POST (useful if DELETE is blocked or server not reloaded)
+app.post('/api/products/:id/delete', (req, res) => {
+  try {
+    const { id } = req.params;
+    const info = db.prepare('DELETE FROM products WHERE id = ?').run(id);
+    if (info.changes === 0) return res.status(404).json({ error: 'Product not found' });
+    res.json({ deleted: true, id: Number(id) });
   } catch (err) {
     res.status(500).json({ error: String(err.message || err) });
   }

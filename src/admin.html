@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin • Fidget Shop</title>
+  <meta name="description" content="Admin page to manage products" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="/main.css" />
+  <script defer src="/scripts/auth.js"></script>
+  <script>
+    // Guard: require logged-in admin
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const raw = localStorage.getItem('user');
+        const user = raw ? JSON.parse(raw) : null;
+        if (!user) {
+          window.location.replace('/login');
+          return;
+        }
+        if (!user.is_admin) {
+          window.location.replace('/');
+          return;
+        }
+        const whoEl = document.getElementById('who');
+        if (whoEl) whoEl.textContent = user.email || 'Admin';
+      } catch {
+        window.location.replace('/login');
+      }
+    });
+  </script>
+  <style>
+    /* Small helper to make code blocks wrap nicely */
+    .break-anywhere { overflow-wrap: anywhere; }
+  </style>
+  <link rel="icon" href="/media/logga.png" />
+  <link rel="apple-touch-icon" href="/media/logga.png" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="robots" content="noindex, nofollow" />
+  </head>
+<body class="font-inter bg-neutral-100 text-neutral-800 selection:bg-neutral-300">
+  <!-- Header -->
+  <header class="fixed top-0 inset-x-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 font-semibold tracking-wide text-neutral-900">
+        <span class="text-lg">LOGO</span>
+      </a>
+      <nav class="hidden md:block" aria-label="Main">
+        <ul class="flex items-center gap-10 text-sm font-medium text-neutral-500">
+          <li><a class="nav-link hover:text-neutral-900 transition" href="/">Home</a></li>
+          <li><a class="nav-link hover:text-neutral-900 transition" href="/checkout.html#orderSummary">Cart</a></li>
+          <li><span class="text-neutral-400">Admin</span></li>
+        </ul>
+      </nav>
+      <div class="flex items-center gap-4">
+        <a href="/checkout.html#orderSummary" class="relative p-2 rounded border border-dashed border-neutral-400 text-[10px] tracking-wide text-neutral-500" aria-label="Cart">
+          CART
+        </a>
+        <a href="/login" id="profileButton" class="inline-flex items-center justify-center w-9 h-9 rounded-full border border-dashed border-neutral-400 hover:bg-white/40 transition focus:outline-none focus:ring-2 focus:ring-neutral-400" aria-label="Log in">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5 text-neutral-700" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a8.25 8.25 0 1115 0v.75H4.5v-.75z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-24 pb-20">
+    <section class="max-w-6xl mx-auto px-4">
+      <div class="mb-8">
+        <h1 class="text-3xl font-extrabold tracking-tight">Admin</h1>
+        <p class="text-neutral-500 mt-2">Logged in as <span id="who" class="font-medium text-neutral-700">...</span></p>
+      </div>
+
+      <div class="grid gap-12 md:grid-cols-2">
+        <!-- Create product -->
+        <section>
+          <h2 class="text-xl font-semibold mb-4">Create product</h2>
+          <form id="productForm" class="bg-white/70 border border-neutral-300 rounded-xl p-5 grid gap-4">
+            <div>
+              <label class="block text-xs text-neutral-500 mb-1">Name</label>
+              <input name="name" required class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+            </div>
+            <div>
+              <label class="block text-xs text-neutral-500 mb-1">Description</label>
+              <textarea name="description" rows="3" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400"></textarea>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs text-neutral-500 mb-1">Price</label>
+                <input name="price" type="number" min="0" step="0.01" required class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+              </div>
+              <div>
+                <label class="block text-xs text-neutral-500 mb-1">Color</label>
+                <input name="color" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+              </div>
+              <div>
+                <label class="block text-xs text-neutral-500 mb-1">Spin</label>
+                <input name="spin" placeholder="e.g. 2m" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs text-neutral-500 mb-1">Image path</label>
+              <input name="image" placeholder="/media/Fidget-Placeholder.webp" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400" />
+              <p class="text-xs text-neutral-500 mt-1">Place files in <code class="px-1 rounded bg-neutral-200/60">src/media</code> and reference as <code class="px-1 rounded bg-neutral-200/60">/media/filename.webp</code></p>
+            </div>
+            <button class="bg-neutral-900 text-white rounded px-4 py-2 text-sm">Create</button>
+            <p id="status" class="text-sm mt-1"></p>
+          </form>
+        </section>
+
+        <!-- Current products -->
+        <section>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-semibold">Products</h2>
+            <button id="refreshBtn" class="text-sm border border-neutral-400 rounded px-3 py-1 hover:bg-neutral-200">Refresh</button>
+          </div>
+          <div id="productList" class="space-y-2 text-sm"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-10 border-t border-neutral-300 bg-white/70 text-sm">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-neutral-500">
+      <p>&copy; <span id="year"></span> FIDGET SHOP</p>
+      <a class="text-neutral-600 hover:text-neutral-900" href="/">Back to start</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const form = document.getElementById('productForm');
+    const statusEl = document.getElementById('status');
+    const listEl = document.getElementById('productList');
+    const refreshBtn = document.getElementById('refreshBtn');
+
+    async function fetchProducts() {
+      listEl.innerHTML = '<p class="text-neutral-500">Loading…</p>';
+      try {
+        const res = await fetch('/api/products');
+        const items = await res.json();
+        if (!Array.isArray(items)) throw new Error('Invalid response');
+        if (items.length === 0) {
+          listEl.innerHTML = '<p class="text-neutral-500">No products yet</p>';
+          return;
+        }
+        listEl.innerHTML = items.map(p => `
+          <div class="rounded border border-neutral-300 bg-white/70 p-3 flex items-center justify-between">
+            <div class="min-w-0">
+              <div class="font-medium">${p.name} <span class="text-neutral-500 font-normal">#${p.id}</span></div>
+              <div class="text-neutral-600 text-xs break-anywhere">${p.description ?? ''}</div>
+              <div class="text-neutral-700 text-xs">${Number(p.price)} kr</div>
+            </div>
+            <div class="flex items-center gap-2 ml-3 shrink-0">
+              <img src="${p.image || '/media/Fidget-Placeholder.webp'}" alt="${p.name}" class="w-14 h-14 object-contain rounded border border-neutral-300 bg-white" loading="lazy" />
+              <button data-id="${p.id}" class="remove-btn text-xs border border-red-300 text-red-700 rounded px-2 py-1 hover:bg-red-50">Remove</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        listEl.innerHTML = `<p class="text-red-700">${err.message || err}</p>`;
+      }
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = '';
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.price = Number(data.price);
+      try {
+        const res = await fetch('/api/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Failed to create product');
+        statusEl.className = 'text-sm text-green-700 mt-1';
+        statusEl.textContent = `Created #${json.id}: ${json.name}`;
+        form.reset();
+        fetchProducts();
+      } catch (err) {
+        statusEl.className = 'text-sm text-red-700 mt-1';
+        statusEl.textContent = err.message || 'Error';
+      }
+    });
+
+    refreshBtn.addEventListener('click', fetchProducts);
+    listEl.addEventListener('click', async (e) => {
+      const t = e.target;
+      if (!(t instanceof HTMLElement)) return;
+      if (!t.classList.contains('remove-btn')) return;
+      const id = t.getAttribute('data-id');
+      if (!id) return;
+      if (!confirm('Remove this product?')) return;
+      try {
+        let ok = false;
+        const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+        ok = res.ok || res.status === 204;
+        if (!ok) {
+          const fallback = await fetch(`/api/products/${id}/delete`, { method: 'POST' });
+          ok = fallback.ok;
+          if (!ok) {
+            const errText = await fallback.text();
+            throw new Error(errText || 'Failed to delete');
+          }
+        }
+        fetchProducts();
+      } catch (err) {
+        alert(err.message || 'Delete failed');
+      }
+    });
+    fetchProducts();
+  </script>
+</body>
+</html>

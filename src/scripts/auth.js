@@ -9,6 +9,45 @@
     }
   }
 
+  function ensureAdminNavLinks(user) {
+    // Only for admins
+    if (!user || !user.is_admin) return;
+
+    // Desktop nav: header nav[aria-label="Main"] ul
+    const desktopUl = document.querySelector('header nav[aria-label="Main"] ul');
+    if (desktopUl && !desktopUl.querySelector('#adminNavLink')) {
+      const li = document.createElement('li');
+      li.id = 'adminNavLink';
+      const a = document.createElement('a');
+      a.href = '/admin';
+      a.className = 'nav-link hover:text-neutral-900 transition';
+      a.textContent = 'Admin';
+      li.appendChild(a);
+      desktopUl.appendChild(li);
+    }
+
+    // Mobile nav (only exists on index.html): #mobileMenu ul
+    const mobileUl = document.querySelector('#mobileMenu ul');
+    if (mobileUl && !mobileUl.querySelector('#adminMobileNavLink')) {
+      const li = document.createElement('li');
+      li.id = 'adminMobileNavLink';
+      const a = document.createElement('a');
+      a.href = '/admin';
+      a.className = 'block px-2 py-1 rounded hover:bg-neutral-200';
+      a.textContent = 'Admin';
+      li.appendChild(a);
+      mobileUl.appendChild(li);
+    }
+  }
+
+  function removeAdminNavLinks() {
+    const ids = ['adminNavLink', 'adminMobileNavLink'];
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    });
+  }
+
   function createLogoutButton() {
     const btn = document.createElement('button');
     btn.id = 'logoutButton';
@@ -32,6 +71,11 @@
       // Replace profile anchor/icon with a small LOGOUT button
       const logoutBtn = createLogoutButton();
       profileEl.replaceWith(logoutBtn);
+      if (user.is_admin) {
+        ensureAdminNavLinks(user);
+      } else {
+        removeAdminNavLinks();
+      }
     } else {
       // Not logged in: ensure the element is an anchor to /login
       if (profileEl.tagName !== 'A') {
@@ -46,6 +90,7 @@
         // Ensure it points to /login
         profileEl.setAttribute('href', '/login');
       }
+      removeAdminNavLinks();
     }
   }
 
