@@ -39,18 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
-	// Expand/collapse all products
-	const allProductsBtn = document.getElementById('toggleAllProducts');
-	const allProductsSection = document.getElementById('allProducts');
-	if (allProductsBtn && allProductsSection) {
-		allProductsBtn.addEventListener('click', () => {
-			const expanded = allProductsBtn.getAttribute('aria-expanded') === 'true';
-			allProductsBtn.setAttribute('aria-expanded', String(!expanded));
-			allProductsSection.classList.toggle('hidden', expanded);
-			allProductsBtn.textContent = expanded ? 'Browse →' : 'Stäng ↑';
-		});
-	}
-
 	// Simple cart logic (in-memory)
 	const cartBtn = document.getElementById('cartButton');
 	const cartPanel = document.getElementById('cartPanel');
@@ -202,25 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	renderCart();
 
 	// Hero layout toggler (restore if hero variants are re-added later)
-	const heroToggleBtn = document.getElementById('heroLayoutToggle');
-	const heroVariantsWrapper = document.getElementById('heroVariants');
-	if (heroToggleBtn && heroVariantsWrapper){
-		const heroStatus = document.getElementById('heroLayoutStatus');
-		const order = ['split','overlap','centered','edge'];
-		function showVariant(name){
-			heroVariantsWrapper.querySelectorAll('.hero-variant').forEach(v => {
-				if (v.getAttribute('data-variant') === name) v.classList.remove('hidden'); else v.classList.add('hidden');
-			});
-			heroToggleBtn.dataset.layout = name;
-			heroToggleBtn.textContent = 'Layout: ' + name.charAt(0).toUpperCase()+name.slice(1);
-			if(heroStatus) heroStatus.textContent = 'Hero layout changed to ' + name;
-		}
-		heroToggleBtn.addEventListener('click', () => {
-			const current = heroToggleBtn.dataset.layout || 'split';
-			const idx = order.indexOf(current);
-			const next = order[(idx+1)%order.length];
-			showVariant(next);
-		});
-		showVariant(heroToggleBtn.dataset.layout || 'split');
-	}
+	
+	loadProducts();
 });

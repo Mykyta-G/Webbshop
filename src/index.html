@@ -120,12 +120,9 @@
             <button class="mt-2 text-xs border border-neutral-400 rounded px-2 py-1 add-to-cart">Add</button>
         </div>
       </div>
-      <div class="mt-8 flex justify-end">
-        <button id="toggleAllProducts" type="button" aria-expanded="false" aria-controls="allProducts" class="px-5 py-2 rounded border-2 border-dashed border-neutral-400 text-neutral-500 text-sm">Browse →</button>
-      </div>
 
-      <!-- Hidden expandable full product list (wireframe placeholders) -->
-      <div id="allProducts" class="mt-10 hidden" aria-label="Alla produkter (placeholder)">
+      <!-- Full product list loaded from API -->
+      <div id="allProducts" class="mt-10" aria-label="Alla produkter">
         <h3 class="sr-only">Alla produkter</h3>
         <div id="productList" class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           
