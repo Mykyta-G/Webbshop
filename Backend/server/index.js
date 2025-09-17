@@ -100,15 +100,16 @@ app.get('/api/products/:id', (req, res) => {
 });
 
 app.post('/api/products', (req, res) => {
-  const { name, description, price, color = '', spin = '' } = req.body || {};
+  const { name, description, price, image = '', color = '', spin = '' } = req.body || {};
   try {
-    if (!name || typeof price !== 'number') {
-      return res.status(400).json({ error: 'Missing required fields: name, price' });
+    const priceNum = Number(price);
+    if (!name || !Number.isFinite(priceNum)) {
+      return res.status(400).json({ error: 'Missing or invalid fields: name, price' });
     }
     const info = db
       .prepare('INSERT INTO products (name, description, price, image, color, spin) VALUES (?, ?, ?, ?, ?, ?)')
-      .run(name, description ?? null, price, image ?? null, color, spin);
-    res.status(201).json({ id: info.lastInsertRowid, name, description, price, image, color, spin });
+      .run(name.trim(), description ?? null, priceNum, image || '', color, spin);
+    res.status(201).json({ id: info.lastInsertRowid, name, description, price: priceNum, image, color, spin });
   } catch (err) {
     res.status(500).json({ error: String(err.message || err) });
   }
