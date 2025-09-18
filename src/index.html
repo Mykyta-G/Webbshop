@@ -93,40 +93,20 @@
   <main id="main-content" role="main" class="pb-24">
   <section id="products" class="py-12">
     <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-3xl font-semibold mb-6 flex items-center gap-3">
-        <span class="inline-block px-2 py-1 text-xs font-medium tracking-wide">HOT</span>
-        <span class="text-neutral-500 text-sm font-normal">(ONLY 10 LEFT)</span>
-      </h2>
-      <div class="grid gap-6 sm:grid-cols-3">
-        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2 flex flex-col" data-product-id="1" data-product-name="Silver Spinner" data-product-price="129">
-          <img src="media/temp.png" alt="Silver Spinner" class="w-full h-auto block mb-2" loading="lazy">
-          <div class="flex items-center justify-between text-xs">
-            <span>Silver Spinner</span>
-            <span class="text-neutral-500">129 kr</span>
-          </div>
-          <button class="mt-2 text-xs border border-neutral-400 rounded px-2 py-1 add-to-cart">Add</button>
-        </div>
-        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2 flex flex-col" data-product-id="2" data-product-name="Neon Spinner" data-product-price="149">
-          <img src="media/temp.png" alt="Neon Spinner" class="w-full h-auto block mb-2" loading="lazy">
-          <div class="flex items-center justify-between text-xs">
-            <span>Neon Spinner</span>
-            <span class="text-neutral-500">149 kr</span>
-          </div>
-            <button class="mt-2 text-xs border border-neutral-400 rounded px-2 py-1 add-to-cart">Add</button>
-        </div>
-        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2 flex flex-col" data-product-id="3" data-product-name="Carbon Spinner" data-product-price="199">
-          <img src="media/temp.png" alt="Carbon Spinner" class="w-full h-auto block mb-2" loading="lazy">
-          <div class="flex items-center justify-between text-xs">
-            <span>Carbon Spinner</span>
-            <span class="text-neutral-500">199 kr</span>
-          </div>
-            <button class="mt-2 text-xs border border-neutral-400 rounded px-2 py-1 add-to-cart">Add</button>
+      <!-- Hot Products Section -->
+      <div id="hotProductsSection">
+        <h2 class="text-3xl font-semibold mb-6 flex items-center gap-3">
+          <span class="inline-block px-2 py-1 text-xs font-medium tracking-wide">HOT</span>
+          <span class="text-neutral-500 text-sm font-normal">(LOADING...)</span>
+        </h2>
+        <div id="hotProductsList" class="grid gap-6 sm:grid-cols-3 mb-10">
+          <!-- Hot products will be loaded here dynamically -->
         </div>
       </div>
 
       <!-- Full product list loaded from API -->
       <div id="allProducts" class="mt-10" aria-label="Alla produkter">
-        <h3 class="sr-only">Alla produkter</h3>
+        <h3 class="text-2xl font-semibold mb-6">All Products</h3>
         <div id="productList" class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           
         </div>

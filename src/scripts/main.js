@@ -192,4 +192,5 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Hero layout toggler (restore if hero variants are re-added later)
 	
 	loadProducts();
+	loadHotProducts();
 });

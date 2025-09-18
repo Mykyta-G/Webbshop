@@ -126,6 +126,12 @@
               <input name="image" placeholder="/media/Fidget-Placeholder.webp" class="w-full border border-neutral-400/70 bg-neutral-50 focus:bg-white rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400" />
               <p class="text-xs text-neutral-500 mt-1">Place files in <code class="px-1 rounded bg-neutral-200/60">src/media</code> and reference as <code class="px-1 rounded bg-neutral-200/60">/media/filename.webp</code></p>
             </div>
+            <div>
+              <label class="flex items-center gap-2 text-xs text-neutral-500 cursor-pointer">
+                <input name="is_hot" type="checkbox" class="border border-neutral-400/70 rounded focus:ring-2 focus:ring-neutral-400" />
+                <span>Hot product (featured in hot section)</span>
+              </label>
+            </div>
             <button class="bg-neutral-900 text-white rounded px-4 py-2 text-sm">Create</button>
             <p id="status" class="text-sm mt-1"></p>
           </form>
@@ -192,12 +198,15 @@
         listEl.innerHTML = items.map(p => `
           <div class="rounded border border-neutral-300 bg-white/70 p-3 flex items-center justify-between">
             <div class="min-w-0">
-              <div class="font-medium">${p.name} <span class="text-neutral-500 font-normal">#${p.id}</span></div>
+              <div class="font-medium">${p.name} <span class="text-neutral-500 font-normal">#${p.id}</span> ${p.is_hot ? '<span class="inline-block px-1.5 py-0.5 text-xs font-medium tracking-wide bg-red-100 text-red-700 rounded">HOT</span>' : ''}</div>
               <div class="text-neutral-600 text-xs break-anywhere">${p.description ?? ''}</div>
               <div class="text-neutral-700 text-xs">${Number(p.price)} kr</div>
             </div>
             <div class="flex items-center gap-2 ml-3 shrink-0">
               <img src="${p.image || '/media/Fidget-Placeholder.webp'}" alt="${p.name}" class="w-14 h-14 object-contain rounded border border-neutral-300 bg-white" loading="lazy" />
+              <button data-id="${p.id}" data-hot="${p.is_hot ? 1 : 0}" class="toggle-hot-btn text-xs border ${p.is_hot ? 'border-orange-300 text-orange-700 bg-orange-50' : 'border-neutral-300 text-neutral-700'} rounded px-2 py-1 hover:bg-opacity-70">
+                ${p.is_hot ? 'Remove Hot' : 'Make Hot'}
+              </button>
               <button data-id="${p.id}" class="remove-btn text-xs border border-red-300 text-red-700 rounded px-2 py-1 hover:bg-red-50">Remove</button>
             </div>
           </div>
@@ -210,8 +219,11 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       statusEl.textContent = '';
-      const data = Object.fromEntries(new FormData(form).entries());
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
       data.price = Number(data.price);
+      // Handle checkbox - if checked, it will be in the FormData, if not it won't exist
+      data.is_hot = formData.has('is_hot');
       try {
         const res = await fetch('/api/products', {
           method: 'POST',
@@ -221,7 +233,7 @@
         const json = await res.json();
         if (!res.ok) throw new Error(json.error || 'Failed to create product');
         statusEl.className = 'text-sm text-green-700 mt-1';
-        statusEl.textContent = `Created #${json.id}: ${json.name}`;
+        statusEl.textContent = `Created #${json.id}: ${json.name}${json.is_hot ? ' (Hot)' : ''}`;
         form.reset();
         fetchProducts();
       } catch (err) {
@@ -234,25 +246,55 @@
     listEl.addEventListener('click', async (e) => {
       const t = e.target;
       if (!(t instanceof HTMLElement)) return;
-      if (!t.classList.contains('remove-btn')) return;
-      const id = t.getAttribute('data-id');
-      if (!id) return;
-      if (!confirm('Remove this product?')) return;
-      try {
-        let ok = false;
-        const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
-        ok = res.ok || res.status === 204;
-        if (!ok) {
-          const fallback = await fetch(`/api/products/${id}/delete`, { method: 'POST' });
-          ok = fallback.ok;
+      
+      // Handle remove button
+      if (t.classList.contains('remove-btn')) {
+        const id = t.getAttribute('data-id');
+        if (!id) return;
+        if (!confirm('Remove this product?')) return;
+        try {
+          let ok = false;
+          const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+          ok = res.ok || res.status === 204;
           if (!ok) {
-            const errText = await fallback.text();
-            throw new Error(errText || 'Failed to delete');
+            const fallback = await fetch(`/api/products/${id}/delete`, { method: 'POST' });
+            ok = fallback.ok;
+            if (!ok) {
+              const errText = await fallback.text();
+              throw new Error(errText || 'Failed to delete');
+            }
           }
+          fetchProducts();
+        } catch (err) {
+          alert(err.message || 'Delete failed');
         }
-        fetchProducts();
-      } catch (err) {
-        alert(err.message || 'Delete failed');
+        return;
+      }
+      
+      // Handle toggle hot button
+      if (t.classList.contains('toggle-hot-btn')) {
+        const id = t.getAttribute('data-id');
+        const currentHot = t.getAttribute('data-hot') === '1';
+        if (!id) return;
+        
+        try {
+          const res = await fetch(`/api/products/${id}/hot`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ is_hot: !currentHot })
+          });
+          
+          if (!res.ok) {
+            const errData = await res.json();
+            throw new Error(errData.error || 'Failed to update hot status');
+          }
+          
+          // Refresh the product list to show updated status
+          fetchProducts();
+        } catch (err) {
+          alert(err.message || 'Toggle hot failed');
+        }
+        return;
       }
     });
     fetchProducts();
