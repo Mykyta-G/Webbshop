@@ -56,8 +56,15 @@ db.prepare(`CREATE TABLE IF NOT EXISTS products (
   price REAL NOT NULL,
   image TEXT NOT NULL DEFAULT '',
   color TEXT NOT NULL DEFAULT '',
-  spin TEXT NOT NULL DEFAULT ''
+  spin TEXT NOT NULL DEFAULT '',
+  is_hot INTEGER NOT NULL DEFAULT 0
 )`).run();
+
+// Add is_hot column to existing products table if it doesn't exist
+try {
+  db.prepare(`ALTER TABLE products ADD COLUMN is_hot INTEGER NOT NULL DEFAULT 0`).run();
+} catch (err) {
+}
 
 // Create users table if it doesn't exist
 db.prepare(`CREATE TABLE IF NOT EXISTS users (
@@ -96,6 +103,17 @@ app.get('/api/products', (_req, res) => {
   }
 });
 
+// Get only hot products
+app.get('/api/products/hot', (_req, res) => {
+  try {
+    const rows = db.prepare('SELECT * FROM products WHERE is_hot = 1').all();
+    console.log(`Sending ${rows.length} hot products`);
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: String(err.message || err) });
+  }
+});
+
 app.get('/api/products/:id', (req, res) => {
   try {
     const { id } = req.params;
@@ -108,16 +126,34 @@ app.get('/api/products/:id', (req, res) => {
 });
 
 app.post('/api/products', (req, res) => {
-  const { name, description, price, image = '', color = '', spin = '' } = req.body || {};
+  const { name, description, price, image = '', color = '', spin = '', is_hot = false } = req.body || {};
   try {
     const priceNum = Number(price);
     if (!name || !Number.isFinite(priceNum)) {
       return res.status(400).json({ error: 'Missing or invalid fields: name, price' });
     }
+    const isHotNum = is_hot ? 1 : 0;
     const info = db
-      .prepare('INSERT INTO products (name, description, price, image, color, spin) VALUES (?, ?, ?, ?, ?, ?)')
-      .run(name.trim(), description ?? null, priceNum, image || '', color, spin);
-    res.status(201).json({ id: info.lastInsertRowid, name, description, price: priceNum, image, color, spin });
+      .prepare('INSERT INTO products (name, description, price, image, color, spin, is_hot) VALUES (?, ?, ?, ?, ?, ?, ?)')
+      .run(name.trim(), description ?? null, priceNum, image || '', color, spin, isHotNum);
+    res.status(201).json({ id: info.lastInsertRowid, name, description, price: priceNum, image, color, spin, is_hot: !!is_hot });
+  } catch (err) {
+    res.status(500).json({ error: String(err.message || err) });
+  }
+});
+
+// Update product hot status
+app.put('/api/products/:id/hot', (req, res) => {
+  try {
+    const { id } = req.params;
+    const { is_hot } = req.body || {};
+    const isHotNum = is_hot ? 1 : 0;
+    const info = db.prepare('UPDATE products SET is_hot = ? WHERE id = ?').run(isHotNum, id);
+    if (info.changes === 0) return res.status(404).json({ error: 'Product not found' });
+    
+    // Return the updated product
+    const product = db.prepare('SELECT * FROM products WHERE id = ?').get(id);
+    res.json({ ...product, is_hot: !!product.is_hot });
   } catch (err) {
     res.status(500).json({ error: String(err.message || err) });
   }
