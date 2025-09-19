@@ -3,17 +3,30 @@
 }
 
 html { scroll-behavior: smooth; }
-body { font-family: 'Inter', system-ui, sans-serif; }
-/* Optional: skeleton shimmer placeholder (not yet used) */
+body { 
+    font-family: 'Inter', system-ui, sans-serif; 
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#main-content, 
+main, 
+.main-wrapper {
+    flex: 1;
+}
+
+/* Sticky footer - ensure footer stays at bottom */
+footer {
+    margin-top: auto;
+}
 @keyframes skeleton { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 .skeleton { background: linear-gradient(90deg,#e5e5e5 0%,#f5f5f5 50%,#e5e5e5 100%); background-size:200% 100%; animation:skeleton 2s infinite linear; }
 
-/* Wireframe nav underline (neutral) */
 .nav-link { position:relative; font-weight:500; }
 .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:#444; transition:width .25s ease; }
 .nav-link:hover::after { width:100%; }
 
-/* Product card layout fixes */
 .product-card {
   height: 100%;
   display: flex;
