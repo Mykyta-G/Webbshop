@@ -14,14 +14,18 @@
     <script>
     // Admin auth check - must run before page loads
     (function() {
+      let currentUser = null; // Store user data in a variable accessible to all functions
+      
       try {
         const raw = localStorage.getItem('user');
-        const user = raw ? JSON.parse(raw) : null;
-        if (!user) {
+        currentUser = raw ? JSON.parse(raw) : null;
+        console.log('Initial user data from localStorage:', currentUser);
+        
+        if (!currentUser) {
           window.location.replace('/login');
           return;
         }
-        if (!user.is_admin) {
+        if (!currentUser.is_admin) {
           window.location.replace('/');
           return;
         }
@@ -29,16 +33,29 @@
         // Set the email when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
           const whoEl = document.getElementById('who');
-          if (whoEl && user) {
-            whoEl.textContent = user.email || 'Admin';
+          console.log('DOM loaded, whoEl found:', !!whoEl);
+          console.log('Current user for display:', currentUser);
+          
+          if (whoEl && currentUser) {
+            const displayName = currentUser.email || currentUser.username || 'Admin';
+            whoEl.textContent = displayName;
+            console.log('Set display name to:', displayName);
+          } else {
+            console.log('Failed to set display name', { whoEl: !!whoEl, currentUser });
+            // Force fallback
+            setTimeout(() => {
+              const whoEl2 = document.getElementById('who');
+              if (whoEl2) {
+                whoEl2.textContent = 'admin@mail.com'; // Hard fallback
+              }
+            }, 500);
           }
         });
         
         // Additional security: check on page visibility changes
         document.addEventListener('visibilitychange', function() {
           if (!document.hidden) {
-            const currentUser = localStorage.getItem('user');
-            const userData = currentUser ? JSON.parse(currentUser) : null;
+            const userData = JSON.parse(localStorage.getItem('user') || '{}');
             if (!userData || !userData.is_admin) {
               window.location.replace('/login');
             }
