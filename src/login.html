@@ -153,11 +153,11 @@
         const data = await res.json();
         const user = data.user || {};
         localStorage.setItem('user', JSON.stringify({ id: user.id, email: user.email, is_admin: !!user.is_admin }));
-        // If admin, go straight to admin page; otherwise go home
+        // Clear current history entry and navigate to prevent back button
         if (user.is_admin) {
-          window.location.href = '/admin.html';
+          window.location.replace('/admin.html');
         } else {
-          window.location.href = '/';
+          window.location.replace('/');
         }
       } catch (err) {
         if (errorEl) {

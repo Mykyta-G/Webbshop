@@ -9,6 +9,77 @@
     }
   }
 
+  // Prevent browser back/forward navigation issues
+  function preventBrowserHistoryNavigation() {
+    // Disable browser back button for secure pages
+    window.addEventListener('popstate', function(event) {
+      const user = getUser();
+      const currentPath = window.location.pathname;
+      
+      // If on admin page without admin privileges, redirect
+      if (currentPath.includes('admin') && (!user || !user.is_admin)) {
+        window.location.replace('/login.html');
+        return;
+      }
+      
+      // If on any secure page without being logged in, redirect
+      if ((currentPath.includes('admin') || currentPath.includes('checkout')) && !user) {
+        window.location.replace('/login.html');
+        return;
+      }
+      
+      // Push the current state back to prevent actual navigation
+      history.pushState(null, '', currentPath);
+    });
+    
+    // Prevent page caching
+    window.addEventListener('beforeunload', function() {
+      // This helps prevent cached page states
+    });
+    
+    // Check auth when page becomes visible (handles tab switching)
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) {
+        checkAuthOnPageLoad();
+      }
+    });
+    
+    // Check auth when window gains focus
+    window.addEventListener('focus', function() {
+      checkAuthOnPageLoad();
+    });
+  }
+
+  function checkAuthOnPageLoad() {
+    const user = getUser();
+    const currentPath = window.location.pathname;
+    
+    // Admin page requires admin user
+    if (currentPath.includes('admin')) {
+      if (!user || !user.is_admin) {
+        window.location.replace('/login.html');
+        return;
+      }
+    }
+    
+    // Checkout might require login (depending on your business logic)
+    if (currentPath.includes('checkout')) {
+      if (!user) {
+        // Optional: redirect to login or allow guest checkout
+        // window.location.replace('/login.html');
+      }
+    }
+    
+    // If on login page but already logged in, redirect appropriately
+    if (currentPath.includes('login') && user) {
+      if (user.is_admin) {
+        window.location.replace('/admin.html');
+      } else {
+        window.location.replace('/');
+      }
+    }
+  }
+
   function ensureAdminNavLinks(user) {
     // Only for admins
     if (!user || !user.is_admin) return;
@@ -91,8 +162,10 @@
     btn.textContent = 'LOGOUT';
     btn.addEventListener('click', () => {
       localStorage.removeItem('user');
-      // Optionally also clear cart/session in the future
-      window.location.reload();
+      // Clear browser history to prevent back navigation
+      history.replaceState(null, '', '/login.html');
+      // Navigate to login page
+      window.location.replace('/login.html');
     });
     return btn;
   }
@@ -134,5 +207,9 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', updateHeaderAuthUI);
+  document.addEventListener('DOMContentLoaded', function() {
+    updateHeaderAuthUI();
+    checkAuthOnPageLoad();
+    preventBrowserHistoryNavigation();
+  });
 })();

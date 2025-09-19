@@ -29,17 +29,41 @@ app.get('/checkout.html', (_req, res) => {
 
 // Serve login pages from src
 app.get('/login', (_req, res) => {
+  // Set cache control headers to prevent caching
+  res.set({
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
+  });
   res.sendFile(path.join(staticDir, 'login.html'));
 });
 app.get('/login.html', (_req, res) => {
+  // Set cache control headers to prevent caching
+  res.set({
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
+  });
   res.sendFile(path.join(staticDir, 'login.html'));
 });
 
 // Serve admin page from src
 app.get('/admin', (_req, res) => {
+  // Set cache control headers to prevent caching
+  res.set({
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
+  });
   res.sendFile(path.join(staticDir, 'admin.html'));
 });
 app.get('/admin.html', (_req, res) => {
+  // Set cache control headers to prevent caching
+  res.set({
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
+  });
   res.sendFile(path.join(staticDir, 'admin.html'));
 });
 
