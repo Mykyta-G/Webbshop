@@ -24,14 +24,18 @@ async function loadProducts() {
         }
       }
       return `
-        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2 flex flex-col" 
+        <div class="product-card rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2" 
              data-product-id="${id}" data-product-name="${name}" data-product-price="${price}">
-          <img src="${imgSrc}" alt="${name}" class="w-full h-auto block mb-2" loading="lazy">
-          <div class="flex items-center justify-between text-xs">
-            <span>${name}</span>
-            <span class="text-neutral-500">${price} kr</span>
+          <div class="product-image-container mb-2">
+            <img src="${imgSrc}" alt="${name}" class="product-image" loading="lazy">
           </div>
-          <button class="mt-2 text-xs border border-neutral-400 rounded px-2 py-1 add-to-cart">Add</button>
+          <div class="product-info">
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span>${name}</span>
+              <span class="text-neutral-500">${price} kr</span>
+            </div>
+            <button class="w-full text-xs border border-neutral-400 rounded px-2 py-1 add-to-cart">Add</button>
+          </div>
         </div>`;
     }).join('');
     container.innerHTML = cards;
@@ -80,14 +84,18 @@ async function loadHotProducts() {
         }
       }
       return `
-        <div class="rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2 flex flex-col" 
+        <div class="product-card rounded border-2 border-dashed border-neutral-400 bg-neutral-50 p-2" 
              data-product-id="${id}" data-product-name="${name}" data-product-price="${price}">
-          <img src="${imgSrc}" alt="${name}" class="w-full h-auto block mb-2" loading="lazy">
-          <div class="flex items-center justify-between text-xs">
-            <span>${name}</span>
-            <span class="text-neutral-500">${price} kr</span>
+          <div class="product-image-container mb-2">
+            <img src="${imgSrc}" alt="${name}" class="product-image" loading="lazy">
           </div>
-          <button class="mt-2 text-xs border border-neutral-400 rounded px-2 py-1 add-to-cart">Add</button>
+          <div class="product-info">
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span>${name}</span>
+              <span class="text-neutral-500">${price} kr</span>
+            </div>
+            <button class="w-full text-xs border border-neutral-400 rounded px-2 py-1 add-to-cart">Add</button>
+          </div>
         </div>`;
     }).join('');
     container.innerHTML = cards;
