@@ -25,8 +25,14 @@
           window.location.replace('/');
           return;
         }
-        const whoEl = document.getElementById('who');
-        if (whoEl) whoEl.textContent = user.email || 'Admin';
+        
+        // Set the email when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+          const whoEl = document.getElementById('who');
+          if (whoEl && user) {
+            whoEl.textContent = user.email || 'Admin';
+          }
+        });
         
         // Additional security: check on page visibility changes
         document.addEventListener('visibilitychange', function() {
